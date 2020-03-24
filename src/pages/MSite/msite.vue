@@ -17,6 +17,7 @@
                 <div class="imgBlock" v-for="n in 8" :key="n">
                   <!--  <img src="./imgs/nav/1.jpg" /> -->
                   <img src="./imgs/nav/1.jpg" />
+                  <span class="text">0000</span>
                 </div>
               </a>
             </div>
@@ -25,12 +26,21 @@
           <div class="swiper-pagination"></div>
         </div>
       </div>
-      <div class="shopList"></div>
+      <div class="shopArea">
+        <!--商家列表標題-->
+        <div class="shopHeader">
+          <i class="iconfont icon-jichuguanli"></i>
+          <span>附近商家</span>
+        </div>
+        <!--商家列表-->
+        <ShopList />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import HeaderTop from '@/components/headerTop.vue'
+import ShopList from '@/components/ShopList/ShopList.vue'
 import Swiper from 'swiper'
 import 'swiper/css/swiper.min.css'
 export default {
@@ -53,12 +63,13 @@ export default {
     });
   },
   components: {
-    HeaderTop
+    HeaderTop,
+    ShopList
   }
 };
 </script>
 <style>
-@import url("../../common/download/font_7u524u7kfii/iconfont.css");
+@import url("../../common/download/font_m1cd3ujz4je/iconfont.css");
 .slotLeft {
   position: absolute;
   display: inline-block;
@@ -79,6 +90,7 @@ export default {
 .swiperOne {
   position: absolute;
   display: flex;
+  flex-grow: 1;
   width: 100%;
   height: 100%;
   background-color: crimson;
@@ -87,19 +99,23 @@ export default {
   flex-wrap: wrap;
 }
 .imgBlock {
-  position: relative;
-  display: inline-block;
-
-  width: 20%;
-  margin: 3px;
-  border-radius: 40px;
+  flex-grow: 1;
+  flex-basis: 0;
+  /* border-radius: 40px; */
   background-color: cyan;
   overflow: hidden;
 }
 .imgGroup {
-  position: relative;
+}
+.imgBlock > .text {
   display: block;
-  width: 100%;
-  background-color: green;
+}
+.shopHeader {
+  position: relative;
+  height: 30px;
+  text-align: left;
+  padding: 10px;
+  font-size: 1.3rem;
+  border-top: rgb(179, 179, 180) 2px solid;
 }
 </style>

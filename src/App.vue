@@ -16,6 +16,10 @@ export default {
 </script>
 
 <style>
+/* html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+} */
 body,
 #app {
   display: block;
