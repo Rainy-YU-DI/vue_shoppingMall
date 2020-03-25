@@ -15,7 +15,7 @@ export default {
 }
 </script>
 <style>
-@import url("../../common/download/font_7u524u7kfii/iconfont.css");
+@import url("../../common/download/font_batbg34t7tl/iconfont.css");
 .slotLeft {
   position: absolute;
   display: inline-block;

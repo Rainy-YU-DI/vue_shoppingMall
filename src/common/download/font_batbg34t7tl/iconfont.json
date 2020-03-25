@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7851922",
+      "name": "chevron-right",
+      "font_class": "chevron-right",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "7851937",
+      "name": "chevron-left",
+      "font_class": "chevron-left",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
       "icon_id": "13513735",
       "name": "服务商查询",
       "font_class": "fuwushangchaxunsvg",
@@ -74,6 +88,13 @@
       "font_class": "huiyuan",
       "unicode": "e657",
       "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "13650740",
+      "name": "19",
+      "font_class": "icon-test",
+      "unicode": "e605",
+      "unicode_decimal": 58885
     }
   ]
 }

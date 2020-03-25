@@ -20,6 +20,8 @@ export default {
   background-color: rgb(114, 20, 143);
   color: white;
   text-align: center;
+  margin: 0px;
+  padding: 0;
 }
 .headerOne {
   line-height: 45px;

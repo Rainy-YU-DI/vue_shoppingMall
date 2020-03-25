@@ -36,7 +36,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import url("../common/download/font_7u524u7kfii/iconfont.css");
+@import url("../common/download/font_batbg34t7tl/iconfont.css");
 
 .footer {
   position: fixed;

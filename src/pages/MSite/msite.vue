@@ -68,8 +68,8 @@ export default {
   }
 };
 </script>
-<style>
-@import url("../../common/download/font_m1cd3ujz4je/iconfont.css");
+<style scoped>
+@import url("../../common/download/font_batbg34t7tl/iconfont.css");
 .slotLeft {
   position: absolute;
   display: inline-block;
@@ -105,8 +105,7 @@ export default {
   background-color: cyan;
   overflow: hidden;
 }
-.imgGroup {
-}
+
 .imgBlock > .text {
   display: block;
 }
