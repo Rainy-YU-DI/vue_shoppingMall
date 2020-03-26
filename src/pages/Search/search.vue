@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <HeaderTop title="搜尋">
-      <span class="slotLeft" slot="left"></span>
-      <span class="slotRight" slot="right"></span>
-    </HeaderTop>
+  <div class="search">
+    <HeaderTop title="搜尋"></HeaderTop>
   </div>
 </template>
 <script>
@@ -16,16 +13,9 @@ export default {
 </script>
 <style>
 @import url("../../common/download/font_batbg34t7tl/iconfont.css");
-.slotLeft {
-  position: absolute;
-  display: inline-block;
-  width: 20%;
-  left: 0;
-}
-.slotRight {
-  position: absolute;
-  display: inline-block;
-  width: 20%;
-  right: 0;
+.search {
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 </style>

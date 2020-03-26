@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <HeaderTop title="訂單列表">
-      <span class="slotLeft" slot="left"></span>
-      <span class="slotRight" slot="right"></span>
-    </HeaderTop>
+  <div class="order">
+    <HeaderTop title="訂單列表"></HeaderTop>
+    <div class="order_content">
+      <div class="no_login"></div>
+      <div class="no_login_text">尚未登入</div>
+    </div>
   </div>
 </template>
 <script>
@@ -16,16 +17,25 @@ export default {
 </script>
 <style>
 @import url("../../common/download/font_batbg34t7tl/iconfont.css");
-.slotLeft {
-  position: absolute;
-  display: inline-block;
-  width: 20%;
-  left: 0;
+.order {
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
-.slotRight {
-  position: absolute;
-  display: inline-block;
-  width: 20%;
-  right: 0;
+.order_content {
+  overflow-y: auto;
+  margin-bottom: 100px;
+}
+.no_login {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: url("img/5gvlyWFkV2_small.jpg") center center no-repeat;
+  background-size: contain;
+}
+.no_login_text {
+  font-size: 50px;
+  color: rosybrown;
+  top: 50%;
 }
 </style>

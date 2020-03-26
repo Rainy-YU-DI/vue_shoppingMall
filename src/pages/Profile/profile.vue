@@ -34,14 +34,14 @@
           </span>
           <span class="info_data_bottom">我的余額</span>
         </a>
-        <a href="javascript:" class="info_data_link">
+        <a href="javascript:;" class="info_data_link">
           <span>
             0
             <span>個</span>
           </span>
           <span class="info_data_bottom">我的優惠</span>
         </a>
-        <a href="javascript:" class="info_data_link">
+        <a href="javascript:;" class="info_data_link">
           <span>
             0
             <span>分</span>
@@ -65,7 +65,7 @@
         </div>
       </a>
       <!-- 積分商城 -->
-      <a href="javascript:">
+      <a href="javascript:;">
         <span>
           <i class="iconfont icon-yusuanguanli"></i>
         </span>
@@ -77,7 +77,7 @@
         </div>
       </a>
       <!-- 會員卡-->
-      <a href="javascript:">
+      <a href="javascript:;">
         <span>
           <i class="iconfont icon-huiyuan"></i>
         </span>
@@ -89,7 +89,7 @@
         </div>
       </a>
       <!-- 服務中心-->
-      <a href="javascript:">
+      <a href="javascript:;">
         <span>
           <i class="iconfont icon-fuwushangchaxunsvg"></i>
         </span>
