@@ -6,9 +6,23 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Footer from '../src/components/footer.vue'
+/* import { reqFootList } from './api' */
 
 export default {
+  mounted () {
+    /*   this.$store.dispatch('getAddress') */
+    this.getAddress()
+  },
+  methods: {
+    ...mapActions(['getAddress'])
+  },
+  // 測試有沒有串接到資料
+  /*  async mounted () {
+    const result = await reqFootList()
+    console.log(result)
+  }, */
   components: {
     Footer
   }

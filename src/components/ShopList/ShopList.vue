@@ -1,39 +1,62 @@
 <template>
   <div class="shopList">
-    <ul class="shopListBlock">
-      <li class="shop_li" v-for="n in 5" :key="n">
+    <ul class="shopListBlock" v-if="shops.length">
+      <li class="shop_li" v-for="(shop, index) in shops" :key="index">
         <a>
           <div class="shopPic">
-            <img class="shop_img" src="@/components/ShopList/imgs/shop/1.jpg" />
+            <img class="shop_img" :src="shopsBaseImg + shop.image_path" />
           </div>
           <div class="textGroup">
             <div class="textHeader">
               <span class="shopName">
-                <span>00000000000</span>
+                <span>{{ shop.name }}</span>
               </span>
             </div>
             <div class="textRating">
               <div class="rating_left">
-                <div class="score">星圖</div>
-                <div class="rateCount">3.6</div>
+                <div class="star star-24">
+                  <span class="star-item on"></span>
+                  <span class="star-item on"></span>
+                  <span class="star-item on"></span>
+                  <span class="star-item half"></span>
+                  <span class="star-item off"></span>
+                </div>
+                <div class="rateCount">{{ shop.rating }}</div>
               </div>
               <div class="rating_right">
-                <div class="saleOrder">月售多少</div>
+                <div class="saleOrder">月售{{ shop.recent_order_num }}單</div>
               </div>
             </div>
             <div class="deliveryData">
-              <span class="deliveryLess">多少起送</span>
-              <span class="deliveryCost">配送費約</span>
+              <span class="deliveryLess"
+                >多少${{ shop.float_minimum_order_amount }}起送</span
+              >
+              <span class="deliveryCost"
+                >配送費約${{ shop.float_delivery_fee }}</span
+              >
             </div>
           </div>
         </a>
       </li>
     </ul>
+    <ul v-else>
+      <li v-for="n in 6" :key="n"><img src="./imgs/shop_back.svg" /></li>
+    </ul>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapState } from 'vuex'
+export default {
+  data () {
+    return {
+      shopsBaseImg: 'http://cangdu.org:8001/img/'
+    }
+  },
+  computed: {
+    ...mapState(['shops'])
+  }
+}
 </script>
 
 <style>
@@ -126,7 +149,7 @@ export default {}
 .rating_left {
   float: left;
 }
-.score,
+.star,
 .rateCount {
   display: inline-block;
   vertical-align: middle;

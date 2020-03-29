@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 首頁頭部 -->
-    <HeaderTop title="歡迎來到購物商城">
+    <HeaderTop :title="address.name">
       <span class="slotLeft" slot="left">
         <i class="iconfont icon-sousuo"></i>
       </span>
@@ -10,14 +10,22 @@
     <div class="content">
       <div class="nav">
         <!-- 首頁導航 -->
-        <div class="swiper-container">
+        <div class="swiper-container" v-if="categorys.length">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="n in 3" :key="n">
-              <a class="swiperOne">
-                <div class="imgBlock" v-for="n in 8" :key="n">
+            <div
+              class="swiper-slide"
+              v-for="(categorys, index) in categorysArr"
+              :key="index"
+            >
+              <a
+                class="swiperOne"
+                v-for="(category, index) in categorys"
+                :key="index"
+              >
+                <div class="imgBlock">
                   <!--  <img src="./imgs/nav/1.jpg" /> -->
-                  <img src="./imgs/nav/1.jpg" />
-                  <span class="text">0000</span>
+                  <img :src="categoryBaseUrl + category.image_url" />
+                  <span class="text">{{ category.title }}</span>
                 </div>
               </a>
             </div>
@@ -25,6 +33,7 @@
           <!-- 如果需要分页器 -->
           <div class="swiper-pagination"></div>
         </div>
+        <img src="./imgs/msite_back.svg" alt="back" v-else />
       </div>
       <div class="shopArea">
         <!--商家列表標題-->
@@ -39,6 +48,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import HeaderTop from '@/components/headerTop.vue'
 import ShopList from '@/components/ShopList/ShopList.vue'
 import Swiper from 'swiper'
@@ -46,25 +56,53 @@ import 'swiper/css/swiper.min.css'
 export default {
   data () {
     return {
-      baseImageUrl: './imgs/nav/1.jpg'
+      baseImageUrl: './imgs/nav/1.jpg',
+      categoryBaseUrl: 'https://fuss10.elemecdn.com/'
     }
   },
 
   mounted () {
-    /* eslint-disable */
-    new Swiper(".swiper-container", {
-      /*  autoplay: {
-        delay: 2000 //2秒切换一次
-      }, */
-      loop: true, // 循环模式选项
-      pagination: {
-        el: ".swiper-pagination"
-      }
-    });
+    this.$store.dispatch('getCategorys')
+    this.$store.dispatch('getShops')
   },
   components: {
     HeaderTop,
     ShopList
+  },
+  computed: {
+    ...mapState(['address', 'categorys']),
+    // 食品分類輪播
+    categorysArr () {
+      const { categorys } = this
+      const arr = []
+      let minArr = []
+      categorys.forEach(c => {
+        if (minArr.length === 8) {
+          minArr = []
+        }
+        if (minArr.length === 0) {
+          arr.push(minArr)
+        }
+        minArr.push(c)
+      })
+      return arr
+    }
+  },
+  watch: {
+    categorys (value) {
+      this.$nextTick(() => {
+        /* eslint-disable */
+        new Swiper(".swiper-container", {
+          autoplay: {
+            delay: 2000 //2秒切换一次
+          },
+          loop: true, // 循环模式选项
+          pagination: {
+            el: ".swiper-pagination"
+          }
+        });
+      });
+    }
   }
 };
 </script>
@@ -82,32 +120,41 @@ export default {
   width: 20%;
   right: 0;
 }
-.swiper-container {
-  position: relative;
+.nav {
   height: 200px;
 }
-
-.swiperOne {
-  position: absolute;
-  display: flex;
-  flex-grow: 1;
+.swiper-container {
   width: 100%;
   height: 100%;
-  background-color: crimson;
+}
+.swiper-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
 }
-.imgBlock {
-  flex-grow: 1;
-  flex-basis: 0;
-  /* border-radius: 40px; */
-  background-color: cyan;
-  overflow: hidden;
+.swiperOne {
+  width: 25%;
 }
-
+.imgBlock {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.imgBlock > img {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+}
 .imgBlock > .text {
   display: block;
+  width: 100%;
+  text-align: center;
 }
 .shopHeader {
   position: relative;
