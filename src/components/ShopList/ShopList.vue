@@ -13,14 +13,9 @@
               </span>
             </div>
             <div class="textRating">
+              <!--星圖-->
               <div class="rating_left">
-                <div class="star star-24">
-                  <span class="star-item on"></span>
-                  <span class="star-item on"></span>
-                  <span class="star-item on"></span>
-                  <span class="star-item half"></span>
-                  <span class="star-item off"></span>
-                </div>
+                <Star :size="24" :scroe="shop.rating" />
                 <div class="rateCount">{{ shop.rating }}</div>
               </div>
               <div class="rating_right">
@@ -28,25 +23,24 @@
               </div>
             </div>
             <div class="deliveryData">
-              <span class="deliveryLess"
-                >多少${{ shop.float_minimum_order_amount }}起送</span
-              >
-              <span class="deliveryCost"
-                >配送費約${{ shop.float_delivery_fee }}</span
-              >
+              <span class="deliveryLess">多少${{ shop.float_minimum_order_amount }}起送</span>
+              <span class="deliveryCost">配送費約${{ shop.float_delivery_fee }}</span>
             </div>
           </div>
         </a>
       </li>
     </ul>
     <ul v-else>
-      <li v-for="n in 6" :key="n"><img src="./imgs/shop_back.svg" /></li>
+      <li v-for="n in 6" :key="n">
+        <img src="./imgs/shop_back.svg" />
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import Star from '../Star/Star'
 export default {
   data () {
     return {
@@ -55,6 +49,9 @@ export default {
   },
   computed: {
     ...mapState(['shops'])
+  },
+  components: {
+    Star
   }
 }
 </script>

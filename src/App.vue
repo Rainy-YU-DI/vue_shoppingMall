@@ -14,9 +14,10 @@ export default {
   mounted () {
     /*   this.$store.dispatch('getAddress') */
     this.getAddress()
+    this.getUserInfo()
   },
   methods: {
-    ...mapActions(['getAddress'])
+    ...mapActions(['getAddress', 'getUserInfo'])
   },
   // 測試有沒有串接到資料
   /*  async mounted () {
@@ -29,14 +30,13 @@ export default {
 }
 </script>
 
-<style>
+<style >
 /* html {
   overflow-x: hidden;
   overflow-y: hidden;
 } */
 body,
 #app {
-  display: block;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

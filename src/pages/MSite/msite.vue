@@ -1,27 +1,25 @@
 <template>
-  <div>
+  <div class="msite">
     <!-- 首頁頭部 -->
     <HeaderTop :title="address.name">
-      <span class="slotLeft" slot="left">
+      <router-link class="slotLeft" slot="left" to="/search">
         <i class="iconfont icon-sousuo"></i>
-      </span>
-      <span class="slotRight" slot="right">登入|註冊</span>
+      </router-link>
+
+      <router-link class="slotRight" slot="right" :to="userInfo._id?'/userInfo':'/login'">
+        <span v-if="!userInfo._id">登入|註冊</span>
+        <span v-else>
+          <i class="iconfont icon-huiyuan"></i>
+        </span>
+      </router-link>
     </HeaderTop>
     <div class="content">
       <div class="nav">
         <!-- 首頁導航 -->
         <div class="swiper-container" v-if="categorys.length">
           <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="(categorys, index) in categorysArr"
-              :key="index"
-            >
-              <a
-                class="swiperOne"
-                v-for="(category, index) in categorys"
-                :key="index"
-              >
+            <div class="swiper-slide" v-for="(categorys, index) in categorysArr" :key="index">
+              <a class="swiperOne" v-for="(category, index) in categorys" :key="index">
                 <div class="imgBlock">
                   <!--  <img src="./imgs/nav/1.jpg" /> -->
                   <img :src="categoryBaseUrl + category.image_url" />
@@ -60,6 +58,11 @@ export default {
       categoryBaseUrl: 'https://fuss10.elemecdn.com/'
     }
   },
+  methods: {
+    go () {
+      console.log(this.$route)
+    }
+  },
 
   mounted () {
     this.$store.dispatch('getCategorys')
@@ -70,7 +73,7 @@ export default {
     ShopList
   },
   computed: {
-    ...mapState(['address', 'categorys']),
+    ...mapState(['address', 'categorys', 'userInfo']),
     // 食品分類輪播
     categorysArr () {
       const { categorys } = this
@@ -108,17 +111,24 @@ export default {
 </script>
 <style scoped>
 @import url("../../common/download/font_batbg34t7tl/iconfont.css");
+.msite {
+  width: 100%;
+}
 .slotLeft {
   position: absolute;
   display: inline-block;
   width: 20%;
   left: 0;
+  color: aliceblue;
+  text-decoration: none;
 }
 .slotRight {
   position: absolute;
   display: inline-block;
   width: 20%;
   right: 0;
+  color: aliceblue;
+  text-decoration: none;
 }
 .nav {
   height: 200px;

@@ -4,5 +4,6 @@ export default {
   longitude: 116.36867,
   address: {},
   categorys: [],
-  shops: []
+  shops: [], //商家數組
+  userInfo: {} //用戶信息
 };

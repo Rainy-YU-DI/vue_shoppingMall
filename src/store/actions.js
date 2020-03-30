@@ -1,9 +1,17 @@
 /*通過mutation間接更新state的多個方法的對象 */
-import { reqAddress, reqFoodCategorys, reqShops } from "../api";
+import {
+  reqAddress,
+  reqFoodCategorys,
+  reqLogout,
+  reqShops,
+  reqUserInfo
+} from "../api";
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
-  RECEIVE_SHOPS
+  RECEIVE_SHOPS,
+  RECIEVE_USER_INFO,
+  RESET_USER_INFO
 } from "./mutation-types";
 
 export default {
@@ -38,6 +46,26 @@ export default {
     if (result.code === 0) {
       const shops = result.data;
       commit(RECEIVE_SHOPS, { shops });
+    }
+  },
+  //同步記錄用戶信息
+  recordUser({ commit }, userInfo) {
+    commit(RECIEVE_USER_INFO, { userInfo });
+  },
+
+  //異步獲取用戶會繣訊息
+  async getUserInfo({ commit }) {
+    const result = await reqUserInfo();
+    if (result.code === 0) {
+      const userInfo = result.data;
+      commit(RECIEVE_USER_INFO, { userInfo });
+    }
+  },
+  //異步退出
+  async logout({ commit }) {
+    const result = await reqLogout();
+    if (result.code === 0) {
+      commit(RESET_USER_INFO);
     }
   }
 };

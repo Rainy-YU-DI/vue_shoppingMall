@@ -9,19 +9,19 @@
         </div>
       </div>
       <div class="login_content">
-        <from @submit.prevent="loginCheck">
+        <form @submit.prevent="loginCheck">
           <div :class="{on: loginWay}">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手機號" />
+              <input type="tel" maxlength="11" placeholder="手機號" v-model="phone" />
               <button
                 :disabled="!rightPhone"
                 class="get_verification"
                 :class="{right_phone:rightPhone}"
                 @click.prevent="getCode"
-              >{{computeTime>0?`已發送(${computeTime})`:'獲取驗證'}}</button>
+              >{{computeTime>0?`已發送(${computeTime}s)`:'獲取驗證'}}</button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="驗證碼" />
+              <input type="tel" maxlength="8" placeholder="驗證碼" v-model="code" />
             </section>
             <section class="login_hint">
               溫馨提示:未註冊雨滴購物網帳號的手機號，登入時將自動註冊，且代表已同意
@@ -30,38 +30,167 @@
           </div>
           <div :class="{on: !loginWay}">
             <section class="login_message">
-              <input type="text" placeholder="手機/郵箱/用戶名" maxlength="11" />
+              <input type="text" placeholder="手機/郵箱/用戶名" maxlength="11" v-model="name" />
             </section>
             <section class="login_verification">
-              <input type="text" placeholder="密碼" maxlength="8" v-if="showPwd" />
-              <input type="password" placeholder="密碼" maxlength="8" v-else />
+              <input type="text" placeholder="密碼" maxlength="8" v-if="showPwd" v-model="pwd" />
+              <input type="password" placeholder="密碼" maxlength="8" v-else v-model="pwd" />
               <div class="switch_button" :class="showPwd?'on':'off'" @click="showPwd=!showPwd">
                 <div class="switch_circle" :class="{right: showPwd}"></div>
                 <span class="switch_text">{{showPwd?'abc':'...'}}</span>
               </div>
             </section>
             <section class="login_message">
-              <input type="text" maxlength="4" placeholder="驗證碼" />
-              <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha" />
+              <input type="text" maxlength="4" placeholder="驗證碼" v-model="captcha" />
+              <img
+                class="get_verification"
+                src="http://localhost:4000/captcha"
+                alt="captcha"
+                @click="getCaptcha"
+                ref="captcha"
+              />
             </section>
           </div>
-        </from>
-        <buttom class="login_submit">登入</buttom>
+          <button class="login_submit">登入</button>
+        </form>
+
         <a href="javascript:;" class="about_us">關於我們</a>
       </div>
+      <a href="javascript:" class="go_back" @click="$router.back()">
+        <i class="iconfont icon-chevron-right"></i>
+      </a>
     </div>
-    <a href="javascript:" class="go_back" @click="$router.back()">
-      <i class="iconfont icon-chevron-right"></i>
-    </a>
+
+    <AlertTip :alertText="alertText" @closeTip="closeTip" v-if="alertShow"></AlertTip>
   </div>
 </template>
 
 <script>
+import AlertTip from '../../components/AlertTip/AlertTip.vue'
+import { reqPwdLogin, reqSendCode, reqSmsLogin } from '../../api/index'
 export default {
   data () {
     return {
-      loginWay: true,
-      showPwd: false
+      loginWay: true, // true代表短信登入，false代表密碼
+      pwd: '',
+      showPwd: false,
+      phone: '',
+      code: '', // 短信驗證碼
+      name: '', // 用戶名,
+      captcha: '', // 圖形驗證碼
+      computeTime: 0,
+      alertText: '',
+      alertShow: false
+    }
+  },
+  computed: {
+    rightPhone () {
+      return /^1\d{10}$/.test(this.phone)
+    }
+  },
+  components: {
+    AlertTip
+  },
+  methods: {
+    // 異步獲取短信驗證碼
+    async getCode () {
+      if (!this.computeTime) {
+        // 倒數計時
+        this.computeTime = 30
+        this.intervalId = setInterval(() => {
+          this.computeTime--
+        }, 1000)
+
+        if (this.computeTime <= 0) {
+          clearInterval(this.intervalId)
+          this.computeTime = 0
+        }
+        // 發ajax請求:向指定的手機號發送驗證碼
+        const result = await reqSendCode(this.phone)
+        if (result.code === 1) {
+          // 沒接收成功
+          // 顯示錯誤題示
+          this.alertText = result.msg
+          this.alertShow = true
+
+          // 停止倒數
+          if (this.computeTime) {
+            this.computeTime = 0
+            clearInterval(this.intervalId)
+
+            this.intervalId = undefined
+          }
+        }
+      }
+    },
+    // 異步登入
+    async loginCheck () {
+      let result
+      if (this.loginWay) {
+        // 短信登入
+        const { phone, code } = this
+        if (!this.rightPhone) {
+          this.alertText = '請輸入正確手機號碼'
+          this.alertShow = true
+          return
+        } else if (!/^\d{6}$/.test(code)) {
+          this.alertText = '請輸入正確驗證碼'
+          this.alertShow = true
+          return
+        }
+        // 發ajax請求:短信登入
+        result = await reqSmsLogin(phone, code)
+      } else {
+        // 密碼登入
+        const { name, pwd, captcha } = this
+        if (!this.name) {
+          this.alertText = '請輸入用戶名'
+          this.alertShow = true
+          return
+        } else if (!this.pwd) {
+          this.alertText = '請輸入正確密碼'
+          this.alertShow = true
+          return
+        } else if (!this.captcha) {
+          this.alertText = '請輸入正確圖示碼'
+          this.alertShow = true
+          return
+        }
+        // 發ajax請求:密碼登入
+        result = await reqPwdLogin({ name, pwd, captcha })
+      }
+
+      // 根據結果數據統一處裡
+      if (this.computeTime) {
+        this.computeTime = 0
+        clearInterval(this.intervalId)
+
+        this.intervalId = undefined
+      }
+
+      if (result.code === 0) {
+        const user = result.data
+        // 將user保存到state
+        this.$state.dispatch('recordUser', user)
+        // 跳轉到個人中心頁面
+        this.$router.replace('/profile')
+      } else {
+        const msg = result.msg
+        this.alertText = msg
+        this.alertShow = true
+        this.getCaptcha()
+      }
+    },
+    // 自定義在父組件closeTip傳給子組件使用
+    // 關閉警告窗
+    closeTip () {
+      this.alertText = ''
+      this.alertShow = false
+    },
+    // 重新獲取Captcha圖示
+    getCaptcha () {
+      this.$refs.captcha.src =
+        'http://localhost:4000/captcha?time=' + Date.now()
     }
   }
 }
@@ -100,10 +229,10 @@ export default {
 .login_content {
   margin-top: 10px;
 }
-.login_content > from > div.on {
+.login_content > form > div.on {
   display: block;
 }
-.login_content > from > div {
+.login_content > form > div {
   display: none;
 }
 .login_message {
@@ -124,8 +253,11 @@ export default {
   margin-right: 10px;
   right: 0px;
   top: 14.5px;
-  background-color: burlywood;
   border: 0px;
+  color: gray;
+}
+.get_verification.right_phone {
+  color: black;
 }
 .login_verification {
   position: relative;
@@ -183,10 +315,10 @@ export default {
   height: 45px;
   top: 2.5px;
 }
-
 .login_submit {
   position: relative;
   display: block;
+  width: 100%;
   margin-top: 20px;
   margin-bottom: 10px;
   line-height: 50px;

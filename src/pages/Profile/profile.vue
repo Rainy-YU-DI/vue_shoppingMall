@@ -4,18 +4,25 @@
     <HeaderTop title="會員資訊"></HeaderTop>
     <!--會員登入顯示狀態-->
     <section class="profile_number">
-      <router-link to="/login" class="profile_link">
+      <router-link
+        :to="userInfo._id ? '/userInfo' : '/login'"
+        class="profile_link"
+      >
         <div class="profile_image">
           <i class="iconfont icon-gerenzhongxin"></i>
         </div>
         <div class="user-info">
           <div class="userGroup">
-            <p class="user-info-top">登錄/注冊</p>
+            <p class="user-info-top" v-if="!userInfo.pnone">
+              {{ userInfo.name || "登錄/注冊" }}
+            </p>
             <p class="user-icon">
               <span>
                 <i class="iconfont icon-huiyuan"></i>
               </span>
-              <span class="phone-number">暫無綁定手機號碼</span>
+              <span class="phone-number">{{
+                userInfo.pnone || "暫無綁定手機號碼"
+              }}</span>
             </p>
           </div>
         </div>
@@ -100,14 +107,39 @@
           </span>
         </div>
       </a>
+      <!--退出登入按鍵-->
+      <section>
+        <mt-button type="danger" style="width:100%" @click="logout"
+          >退出登入</mt-button
+        >
+      </section>
     </section>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+import { MessageBox, Toast } from 'mint-ui'
 import HeaderTop from '@/components/headerTop.vue'
 export default {
   components: {
     HeaderTop
+  },
+  computed: {
+    ...mapState(['userInfo'])
+  },
+  methods: {
+    logout () {
+      MessageBox.confirm('確定退出嗎?').then(
+        action => {
+          // 請求退出
+          this.$store.dispatch('logout')
+          Toast('登出完成')
+        },
+        action => {
+          console.log('點擊了取消')
+        }
+      )
+    }
   }
 }
 </script>
