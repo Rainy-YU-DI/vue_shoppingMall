@@ -3,10 +3,14 @@
     <!-- 首頁頭部 -->
     <HeaderTop :title="address.name">
       <router-link class="slotLeft" slot="left" to="/search">
-        <i class="iconfont icon-sousuo"></i>
+        <span class="iconfont icon-sousuo"> </span>
       </router-link>
 
-      <router-link class="slotRight" slot="right" :to="userInfo._id?'/userInfo':'/login'">
+      <router-link
+        class="slotRight"
+        slot="right"
+        :to="userInfo._id ? '/userInfo' : '/login'"
+      >
         <span v-if="!userInfo._id">登入|註冊</span>
         <span v-else>
           <i class="iconfont icon-huiyuan"></i>
@@ -18,8 +22,16 @@
         <!-- 首頁導航 -->
         <div class="swiper-container" v-if="categorys.length">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(categorys, index) in categorysArr" :key="index">
-              <a class="swiperOne" v-for="(category, index) in categorys" :key="index">
+            <div
+              class="swiper-slide"
+              v-for="(categorys, index) in categorysArr"
+              :key="index"
+            >
+              <a
+                class="swiperOne"
+                v-for="(category, index) in categorys"
+                :key="index"
+              >
                 <div class="imgBlock">
                   <!--  <img src="./imgs/nav/1.jpg" /> -->
                   <img :src="categoryBaseUrl + category.image_url" />
@@ -113,6 +125,7 @@ export default {
 @import url("../../common/download/font_batbg34t7tl/iconfont.css");
 .msite {
   width: 100%;
+  overflow-x: none;
 }
 .slotLeft {
   position: absolute;

@@ -3,13 +3,19 @@ import {
   reqAddress,
   reqFoodCategorys,
   reqLogout,
+  reqShopGoods,
+  reqShopInfo,
+  reqShopRatings,
   reqShops,
   reqUserInfo
 } from "../api";
 import {
+  RECEIEVE_INFO,
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
+  RECEIVE_RATINGS,
   RECEIVE_SHOPS,
+  RECIEVE_GOODS,
   RECIEVE_USER_INFO,
   RESET_USER_INFO
 } from "./mutation-types";
@@ -66,6 +72,31 @@ export default {
     const result = await reqLogout();
     if (result.code === 0) {
       commit(RESET_USER_INFO);
+    }
+  },
+
+  //獲取商家店
+  async getShopGoods({ commit }) {
+    const result = await reqShopGoods();
+    if (result.code === 0) {
+      const goods = result.data;
+      commit(RECIEVE_GOODS, { goods });
+    }
+  },
+  //獲取商家評論
+  async getShopRatings({ commit }) {
+    const result = await reqShopRatings();
+    if (result.code === 0) {
+      const ratings = result.data;
+      commit(RECEIVE_RATINGS, { ratings });
+    }
+  },
+  //獲取商家資訊
+  async getShopInfo({ commit }) {
+    const result = await reqShopInfo();
+    if (result.code === 0) {
+      const info = result.data;
+      commit(RECEIEVE_INFO, { info });
     }
   }
 };

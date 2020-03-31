@@ -1,7 +1,12 @@
 <template>
   <div class="shopList">
     <ul class="shopListBlock" v-if="shops.length">
-      <li class="shop_li" v-for="(shop, index) in shops" :key="index">
+      <li
+        class="shop_li"
+        v-for="(shop, index) in shops"
+        :key="index"
+        @click="$router.push('/shop')"
+      >
         <a>
           <div class="shopPic">
             <img class="shop_img" :src="shopsBaseImg + shop.image_path" />
@@ -23,8 +28,12 @@
               </div>
             </div>
             <div class="deliveryData">
-              <span class="deliveryLess">多少${{ shop.float_minimum_order_amount }}起送</span>
-              <span class="deliveryCost">配送費約${{ shop.float_delivery_fee }}</span>
+              <span class="deliveryLess"
+                >多少${{ shop.float_minimum_order_amount }}起送</span
+              >
+              <span class="deliveryCost"
+                >配送費約${{ shop.float_delivery_fee }}</span
+              >
             </div>
           </div>
         </a>

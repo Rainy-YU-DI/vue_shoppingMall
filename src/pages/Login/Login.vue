@@ -4,44 +4,92 @@
       <div class="loginHeader">
         <h2 class="login_logo">雨滴購物網</h2>
         <div class="login_header_title">
-          <a href="javascript:;" :class="{on:loginWay}" @click="loginWay=true">短信登入</a>
-          <a href="javascript:;" :class="{on:!loginWay}" @click="loginWay=false">密碼登入</a>
+          <a
+            href="javascript:;"
+            :class="{ on: loginWay }"
+            @click="loginWay = true"
+            >短信登入</a
+          >
+          <a
+            href="javascript:;"
+            :class="{ on: !loginWay }"
+            @click="loginWay = false"
+            >密碼登入</a
+          >
         </div>
       </div>
       <div class="login_content">
         <form @submit.prevent="loginCheck">
-          <div :class="{on: loginWay}">
+          <div :class="{ on: loginWay }">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手機號" v-model="phone" />
+              <input
+                type="tel"
+                maxlength="11"
+                placeholder="手機號"
+                v-model="phone"
+              />
               <button
                 :disabled="!rightPhone"
                 class="get_verification"
-                :class="{right_phone:rightPhone}"
+                :class="{ right_phone: rightPhone }"
                 @click.prevent="getCode"
-              >{{computeTime>0?`已發送(${computeTime}s)`:'獲取驗證'}}</button>
+              >
+                {{ computeTime > 0 ? `已發送(${computeTime}s)` : "獲取驗證" }}
+              </button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="驗證碼" v-model="code" />
+              <input
+                type="tel"
+                maxlength="8"
+                placeholder="驗證碼"
+                v-model="code"
+              />
             </section>
             <section class="login_hint">
               溫馨提示:未註冊雨滴購物網帳號的手機號，登入時將自動註冊，且代表已同意
               <a href="javascript:;">《用戶服務協議》</a>
             </section>
           </div>
-          <div :class="{on: !loginWay}">
+          <div :class="{ on: !loginWay }">
             <section class="login_message">
-              <input type="text" placeholder="手機/郵箱/用戶名" maxlength="11" v-model="name" />
+              <input
+                type="text"
+                placeholder="手機/郵箱/用戶名"
+                maxlength="11"
+                v-model="name"
+              />
             </section>
             <section class="login_verification">
-              <input type="text" placeholder="密碼" maxlength="8" v-if="showPwd" v-model="pwd" />
-              <input type="password" placeholder="密碼" maxlength="8" v-else v-model="pwd" />
-              <div class="switch_button" :class="showPwd?'on':'off'" @click="showPwd=!showPwd">
-                <div class="switch_circle" :class="{right: showPwd}"></div>
-                <span class="switch_text">{{showPwd?'abc':'...'}}</span>
+              <input
+                type="text"
+                placeholder="密碼"
+                maxlength="8"
+                v-if="showPwd"
+                v-model="pwd"
+              />
+              <input
+                type="password"
+                placeholder="密碼"
+                maxlength="8"
+                v-else
+                v-model="pwd"
+              />
+              <div
+                class="switch_button"
+                :class="showPwd ? 'on' : 'off'"
+                @click="showPwd = !showPwd"
+              >
+                <div class="switch_circle" :class="{ right: showPwd }"></div>
+                <span class="switch_text">{{ showPwd ? "abc" : "..." }}</span>
               </div>
             </section>
             <section class="login_message">
-              <input type="text" maxlength="4" placeholder="驗證碼" v-model="captcha" />
+              <input
+                type="text"
+                maxlength="4"
+                placeholder="驗證碼"
+                v-model="captcha"
+              />
               <img
                 class="get_verification"
                 src="http://localhost:4000/captcha"
@@ -61,7 +109,11 @@
       </a>
     </div>
 
-    <AlertTip :alertText="alertText" @closeTip="closeTip" v-if="alertShow"></AlertTip>
+    <AlertTip
+      :alertText="alertText"
+      @closeTip="closeTip"
+      v-if="alertShow"
+    ></AlertTip>
   </div>
 </template>
 
@@ -142,7 +194,7 @@ export default {
         result = await reqSmsLogin(phone, code)
       } else {
         // 密碼登入
-        const { name, pwd, captcha } = this
+        const { pwd, name } = this
         if (!this.name) {
           this.alertText = '請輸入用戶名'
           this.alertShow = true
@@ -157,7 +209,7 @@ export default {
           return
         }
         // 發ajax請求:密碼登入
-        result = await reqPwdLogin({ name, pwd, captcha })
+        result = await reqPwdLogin({ pwd, name })
       }
 
       // 根據結果數據統一處裡

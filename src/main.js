@@ -3,6 +3,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import { Button } from "mint-ui";
 import Vue from "vue";
+import "../src/mock/mockServer.js"; //加載mockServer即可(像CSS，他也沒暴露)
 import App from "./App";
 import router from "./router";
 import store from "./store";
