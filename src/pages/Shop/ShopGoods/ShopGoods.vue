@@ -2,7 +2,13 @@
   <div class="goods">
     <div class="menu_left">
       <ul>
-        <li class="categoryItem" v-for="(good, index) in goods" :key="index">
+        <li
+          class="categoryItem"
+          v-for="(good, index) in goods"
+          :key="index"
+          :class="{ current: index === currentIndex }"
+          @click="clickMenuLeft(index)"
+        >
           <div class="itemSpan">
             <img
               :src="good.icon"
@@ -15,7 +21,7 @@
       </ul>
     </div>
     <div class="menu_right">
-      <ul>
+      <ul ref="foodUl">
         <li class="titleBar" v-for="(good, index) in goods" :key="index">
           <h1>
             {{ good.name }}
@@ -37,7 +43,7 @@
                   <span>好評率{{ food.rating }}%</span>
                 </p>
                 <p>${{ food.price }}</p>
-                <div class="buyButton"><div class="green"></div></div>
+                <CartControl :food="food" />
               </div>
             </li>
           </ul>
@@ -50,6 +56,7 @@
 <script>
 import { mapState } from 'vuex'
 import BScroll from 'better-scroll'
+import CartControl from '../../../components/cartControl/cartControl.vue'
 
 export default {
   data () {
@@ -60,14 +67,91 @@ export default {
   },
   mounted () {
     this.$store.dispatch('getShopGoods', () => {
+      // 數據更新後執行此回調函式命名callback
       this.$nextTick(() => {
+        // 列表數據更新顯示後執行
         /* eslint-disable */
-        new BScroll(".menu_left");
+        //列表顯示後創建
+        this._initScroll();
+        this._initTops();
       });
     });
   },
   computed: {
-    ...mapState(["goods"])
+    ...mapState(["goods"]),
+    //計算得到當前分類的下標
+    currentIndex() {
+      //初始和相關數據發生變化時會調用
+      //得到條件數據
+      const { scrollY, tops } = this;
+      //根據條件計算產生一個結果
+      const index = tops.findIndex((top, index) => {
+        return scrollY >= top && scrollY < tops[index + 1];
+      });
+      //返回結果
+      return index;
+    }
+  },
+  methods: {
+    //1.初始化滾動條
+    _initScroll() {
+      new BScroll(".menu_left", {
+        click: true
+      });
+      this.foodScroll = new BScroll(".menu_right", {
+        probeType: 2, //慣性滑動不會觸發
+        scrollY: true,
+        click: true
+      });
+
+      //給右側列表綁定scroll監聽
+      this.foodScroll.on("scroll", ({ x, y }) => {
+        console.log(x, y);
+        this.scrollY = Math.abs(y);
+      });
+      //給右側列表綁定scrollEnd監聽
+      this.foodScroll.on("scrollEnd", ({ x, y }) => {
+        console.log(x, y);
+        this.scrollY = Math.abs(y);
+      });
+    },
+    //2.初始化tops
+    _initTops() {
+      //初始化tops
+      const tops = [];
+      let top = 0;
+      tops.push(top);
+      //找出所有food li的top位置
+      const lis = this.$refs.foodUl.getElementsByClassName("titleBar");
+      Array.prototype.slice.call(lis).forEach(li => {
+        top += li.clientHeight;
+        tops.push(top);
+      });
+      //更新tops數據
+      this.tops = tops;
+      console.log(this.tops);
+    },
+    clickMenuLeft(index) {
+      //使右側列表滑動到對應的位置
+      const scroll = this.tops[index];
+      //立即將scrollY改變
+      this.scrollY = scroll;
+      this.foodScroll.scrollTo(0, -scroll, 300);
+    }
+  },
+  components: {
+    CartControl
+  },
+  watch: {
+    food: {
+      deep: true,
+      handler: {
+        food(newCount, oldCount) {
+          this.food.count = newCount;
+        }
+      },
+      immediate: true
+    }
   }
 };
 </script>
@@ -90,12 +174,14 @@ export default {
 .menu_right {
   flex: 1;
 }
+.categoryItem.current {
+  background-color: rgb(255, 255, 255);
+}
 ul {
   margin: 0;
   padding: 0;
 }
 .menu_left > ul {
-  padding: 0px 5px;
   box-sizing: border-box;
   background-color: rgb(231, 230, 230);
 }
@@ -124,7 +210,7 @@ li {
 }
 .shopItem {
   display: flex;
-  margin: 10px;
+  padding: 10px;
   text-align: left;
   vertical-align: baseline;
   border-bottom: 0.4px solid rgb(190, 190, 190);
@@ -155,15 +241,5 @@ li {
 }
 .shopItem > .texts > p:nth-child(3) > span {
   margin-left: 10px;
-}
-.buyButton {
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background-color: rgb(65, 126, 5);
-  border-radius: 50px;
-  float: right;
-  margin-right: 10px;
-  margin-bottom: 10px;
 }
 </style>

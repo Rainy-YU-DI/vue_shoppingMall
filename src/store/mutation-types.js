@@ -8,3 +8,6 @@ export const RESET_USER_INFO = "reset_user_info"; //接收用戶信息
 export const RECIEVE_GOODS = "receive_goods"; //接收商品數組
 export const RECEIVE_RATINGS = "receive_ratings";
 export const RECEIEVE_INFO = "receive_info";
+
+export const INCREMENT_FOOD_COUNT = "increment_food_count"; //增加food中的count
+export const DECREMENT_FOOD_COUNT = "decrement_food_count"; //減少food中的count
