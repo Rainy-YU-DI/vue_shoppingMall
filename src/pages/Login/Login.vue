@@ -92,7 +92,7 @@
               />
               <img
                 class="get_verification"
-                src="http://localhost:4000/captcha"
+                src="http://207.148.96.113:4000/captcha"
                 alt="captcha"
                 @click="getCaptcha"
                 ref="captcha"
@@ -194,7 +194,7 @@ export default {
         result = await reqSmsLogin(phone, code)
       } else {
         // 密碼登入
-        const { pwd, name } = this
+        const { pwd, name, captcha } = this
         if (!this.name) {
           this.alertText = '請輸入用戶名'
           this.alertShow = true
@@ -208,8 +208,9 @@ export default {
           this.alertShow = true
           return
         }
+
         // 發ajax請求:密碼登入
-        result = await reqPwdLogin({ pwd, name })
+        result = await reqPwdLogin({ name, pwd, captcha })
       }
 
       // 根據結果數據統一處裡
@@ -223,7 +224,7 @@ export default {
       if (result.code === 0) {
         const user = result.data
         // 將user保存到state
-        this.$state.dispatch('recordUser', user)
+        this.$store.dispatch('recordUser', user)
         // 跳轉到個人中心頁面
         this.$router.replace('/profile')
       } else {

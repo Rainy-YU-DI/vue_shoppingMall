@@ -31,40 +31,42 @@
         <a class="iconfont icon-chevron-right"></a>
       </div>
     </div>
-    <div class="shopModal" v-show="shopShow">
-      <div class="black">
-        <div class="shopModal_content">
-          <div class="shopModal_content_one">
-            <span>品牌</span>
-            <span>{{ info.name }}</span>
-          </div>
-          <ul class="shopModal_content_two">
-            <li>
-              <span>{{ info.score }}</span
-              ><span>評分</span>
-            </li>
-            <li>
-              <span>{{ info.sellCount }}單</span> <span>月售</span>
-            </li>
-            <li>
-              <span>雨滴專送</span> <span>約{{ info.deliveryTime }}分鐘</span>
-            </li>
-            <li>
-              <span>{{ info.deliveryPrice }}元</span> <span>配送費用</span>
-            </li>
-            <li>
-              <span>距離{{ info.distance }}</span> <span>距離</span>
-            </li>
-          </ul>
+    <transition name="fade">
+      <div class="shopModal" v-show="shopShow">
+        <div class="black">
+          <div class="shopModal_content">
+            <div class="shopModal_content_one">
+              <span>品牌</span>
+              <span>{{ info.name }}</span>
+            </div>
+            <ul class="shopModal_content_two">
+              <li>
+                <span>{{ info.score }}</span
+                ><span>評分</span>
+              </li>
+              <li>
+                <span>{{ info.sellCount }}單</span> <span>月售</span>
+              </li>
+              <li>
+                <span>雨滴專送</span> <span>約{{ info.deliveryTime }}分鐘</span>
+              </li>
+              <li>
+                <span>{{ info.deliveryPrice }}元</span> <span>配送費用</span>
+              </li>
+              <li>
+                <span>距離{{ info.distance }}</span> <span>距離</span>
+              </li>
+            </ul>
 
-          <div class="middleLine">公告</div>
-          <div class="shopText">{{ info.bulletin }}</div>
-        </div>
-        <div class="close">
-          <i class="material-icons" @click="toggleShopShow">cancel</i>
+            <div class="middleLine">公告</div>
+            <div class="shopText">{{ info.bulletin }}</div>
+          </div>
+          <div class="close">
+            <i class="material-icons" @click="toggleShopShow">cancel</i>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
     <div class="activitySheet" v-show="supportShow"></div>
   </div>
 </template>
@@ -230,6 +232,14 @@ export default {
   background-color: rgba(0, 0, 0, 0.6);
   margin: auto;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 .black {
   position: absolute;
   margin: auto;
@@ -287,7 +297,7 @@ export default {
 }
 .shopText {
   text-align: left;
-  font-size: 4px;
+  font-size: 6px;
   margin-bottom: 20px;
 }
 </style>

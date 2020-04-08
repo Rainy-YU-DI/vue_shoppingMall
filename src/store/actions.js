@@ -76,11 +76,13 @@ export default {
   },
 
   //獲取商家店
-  async getShopGoods({ commit }) {
+  async getShopGoods({ commit }, callback) {
     const result = await reqShopGoods();
     if (result.code === 0) {
       const goods = result.data;
       commit(RECIEVE_GOODS, { goods });
+      //數據更新了通知一下組件(取得頁面資料後滑動效果才顯示)
+      callback && callback();
     }
   },
   //獲取商家評論

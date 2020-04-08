@@ -15,12 +15,8 @@ export const reqShops = (longitude, latitude) =>
 //[6、用户名密码登陆]
 /* export const reqPwdLogin = ({ name, pwd, captcha }) =>
   ajax(BASE + "/login_pwd", { name, pwd, captcha }, "POST"); */
-export const reqPwdLogin = ({ password, username }) =>
-  ajax(
-    "http://207.148.96.113:9420/api/auth/signin",
-    { password, username },
-    "POST"
-  );
+export const reqPwdLogin = ({ name, pwd, captcha }) =>
+  ajax(BASE + "/login_pwd", { name, pwd, captcha }, "POST");
 //[7、发送短信验证码]
 export const reqSendCode = phone => ajax(BASE + "/sendcode", phone, "POST");
 //[8、手机号验证码登陆]
@@ -28,8 +24,10 @@ export const reqSmsLogin = ({ phone, code }) =>
   ajax(BASE + "/login_sms", { phone, code }, "POST");
 //[9、根据会话获取用户信息]
 /* export const reqUserInfo = () => ajax(BASE + "/userinfo"); */
-export const reqUserInfo = () =>
-  ajax("http://207.148.96.113:9420/api/test/user");
+export const reqUserInfo = user =>
+  ajax(BASE + "/userinfo", {
+    user
+  });
 //[10、用户登出]
 export const reqLogout = () => ajax(BASE + "/logout");
 

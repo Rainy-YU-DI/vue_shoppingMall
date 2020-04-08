@@ -29,7 +29,12 @@ export default function ajax(url, data = {}, type = "GET") {
       }
       promise = axios.get(url);
     } else {
-      promise = axios.post(url, data);
+      promise = axios.post(url, data, {
+        headers: {
+          Authorization:
+            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWEiLCJpYXQiOjE1ODU2Njg4ODcsImV4cCI6MTU4NTc1NTI4N30._f8cgwl41eQyEjfk2YXF9jOUbQzklbTDzLpxvU5I3iuxoUfKV0IoEdLAfXBYD3Y_g-FFaL1OjutzJxeUddMfWA"
+        }
+      });
     }
 
     promise

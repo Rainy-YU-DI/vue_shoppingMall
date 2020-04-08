@@ -3,15 +3,16 @@
     <ShopHeader />
     <div class="tab">
       <div class="tab-item">
-        <router-link class="active" to="/shop/goods">點餐</router-link>
+        <router-link active-class="active" to="/shop/goods">點餐</router-link>
       </div>
       <div class="tab-item">
-        <router-link to="/shop/ratings">評價</router-link>
+        <router-link active-class="active" to="/shop/ratings">評價</router-link>
       </div>
       <div class="tab-item">
-        <router-link to="/shop/info">商家</router-link>
+        <router-link active-class="active" to="/shop/info">商家</router-link>
       </div>
     </div>
+    <keep-alive><router-view /></keep-alive>
   </div>
 </template>
 
@@ -19,9 +20,15 @@
 import ShopHeader from '../../components/ShopHeader/ShopHeader.vue'
 
 export default {
+  data () {
+    return {
+      show: true
+    }
+  },
   mounted () {
     this.$store.dispatch('getShopInfo')
   },
+  methods: {},
   components: {
     ShopHeader
   }
