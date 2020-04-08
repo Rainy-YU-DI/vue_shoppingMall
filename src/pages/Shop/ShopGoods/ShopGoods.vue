@@ -1,68 +1,74 @@
 <template>
-  <div class="goods">
-    <div class="menu_left">
-      <ul>
-        <li
-          class="categoryItem"
-          v-for="(good, index) in goods"
-          :key="index"
-          :class="{ current: index === currentIndex }"
-          @click="clickMenuLeft(index)"
-        >
-          <div class="itemSpan">
-            <img
-              :src="good.icon"
-              style="width:12px;height:12px"
-              v-if="good.icon"
-            />
-            <p>{{ good.name }}</p>
-          </div>
-        </li>
-      </ul>
+  <div>
+    <div class="goods">
+      <div class="menu_left">
+        <ul>
+          <li
+            class="categoryItem"
+            v-for="(good, index) in goods"
+            :key="index"
+            :class="{ current: index === currentIndex }"
+            @click="clickMenuLeft(index)"
+          >
+            <div class="itemSpan">
+              <img
+                :src="good.icon"
+                style="width:12px;height:12px"
+                v-if="good.icon"
+              />
+              <p>{{ good.name }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="menu_right">
+        <ul ref="foodUl">
+          <li class="titleBar" v-for="(good, index) in goods" :key="index">
+            <h1>
+              {{ good.name }}
+            </h1>
+            <ul>
+              <li
+                class="shopItem"
+                v-for="(food, index) in good.foods"
+                :key="index"
+                @click="showFood(food)"
+              >
+                <div class="iconImg">
+                  <img :src="food.icon" width="57" height="57" />
+                </div>
+                <div class="texts">
+                  <p>{{ food.name }}</p>
+                  <p>{{ food.description }}</p>
+                  <p>
+                    月售{{ food.sellCount }}份
+                    <span>好評率{{ food.rating }}%</span>
+                  </p>
+                  <p>${{ food.price }}</p>
+                  <CartControl :food="food" />
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="shopCart"></div>
     </div>
-    <div class="menu_right">
-      <ul ref="foodUl">
-        <li class="titleBar" v-for="(good, index) in goods" :key="index">
-          <h1>
-            {{ good.name }}
-          </h1>
-          <ul>
-            <li
-              class="shopItem"
-              v-for="(food, index) in good.foods"
-              :key="index"
-            >
-              <div class="iconImg">
-                <img :src="food.icon" width="57" height="57" />
-              </div>
-              <div class="texts">
-                <p>{{ food.name }}</p>
-                <p>{{ food.description }}</p>
-                <p>
-                  月售{{ food.sellCount }}份
-                  <span>好評率{{ food.rating }}%</span>
-                </p>
-                <p>${{ food.price }}</p>
-                <CartControl :food="food" />
-              </div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div class="shopCart"></div>
+    <Food :food="food" ref="foodshow"></Food>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import BScroll from 'better-scroll'
 import CartControl from '../../../components/cartControl/cartControl.vue'
+import Food from '../../../components/Food/Food.vue'
 
 export default {
   data () {
     return {
       scrollY: 0,
-      tops: []
+      tops: [],
+      food: {} // 需要顯示的food
     }
   },
   mounted () {
@@ -137,10 +143,18 @@ export default {
       //立即將scrollY改變
       this.scrollY = scroll;
       this.foodScroll.scrollTo(0, -scroll, 300);
+    },
+    //顯示點擊的food
+    showFood(food) {
+      //設置food組件
+      this.food = food;
+      //顯示food組件(在父組件調用子組件內的方法)
+      this.$refs.foodshow.toggleShow();
     }
   },
   components: {
-    CartControl
+    CartControl,
+    Food
   },
   watch: {
     food: {
@@ -195,6 +209,7 @@ li {
   vertical-align: middle;
   box-sizing: border-box;
 }
+
 .itemSpan > p {
   display: inline-block;
   line-height: 54px;

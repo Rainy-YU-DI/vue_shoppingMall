@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="shop">
     <ShopHeader />
     <div class="tab">
       <div class="tab-item">

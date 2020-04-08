@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style >
+<style>
 /* html {
   overflow-x: hidden;
   overflow-y: hidden;
@@ -44,5 +44,6 @@ body,
   color: #2c3e50;
   margin: 0px;
   padding: 0px;
+  width: 100%;
 }
 </style>

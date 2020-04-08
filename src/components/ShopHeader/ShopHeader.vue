@@ -1,6 +1,12 @@
 <template>
   <div class="shopHeader">
-    <div class="headTop" :style="{ backgroundImage: `url(${info.bgImg})` }">
+    <div
+      class="headTop"
+      :style="{
+        backgroundImage: `url(${info.bgImg})`,
+        backgroundSize: 'cover'
+      }"
+    >
       <a class="back" @click="$router.back()">
         <i class="iconfont icon-chevron-left"></i>
       </a>
