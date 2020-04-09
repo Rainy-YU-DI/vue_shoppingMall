@@ -4,13 +4,16 @@
       <span
         class="material-icons"
         v-if="food.count"
-        @click="updateFoodCount(false)"
+        v-on:click.stop.prevent="updateFoodCount(false)"
       >
         remove_circle_outline
       </span>
     </transition>
     <p v-if="food.count">{{ food.count }}</p>
-    <span class="material-icons" @click="updateFoodCount(true)">
+    <span
+      class="material-icons"
+      v-on:click.stop.prevent="updateFoodCount(true)"
+    >
       add_circle
     </span>
   </div>
@@ -21,8 +24,12 @@ export default {
     food: Object
   },
   methods: {
-    updateFoodCount (isAdd) {
-      this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
+    updateFoodCount (isAdd, event) {
+      if (event) {
+        event.stopImmediatePropagation()
+      } else {
+        this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
+      }
     }
   }
 }

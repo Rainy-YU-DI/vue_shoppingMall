@@ -8,5 +8,6 @@ export default {
   userInfo: {}, //用戶信息
   goods: [], //商品列表
   ratings: [], //商家評價列表
-  info: {} //商家信息
+  info: {}, //商家信息
+  cartFoods: [] //購物車中時務的列表
 };

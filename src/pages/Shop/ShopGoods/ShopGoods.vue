@@ -45,14 +45,15 @@
                     <span>好評率{{ food.rating }}%</span>
                   </p>
                   <p>${{ food.price }}</p>
-                  <CartControl :food="food" />
                 </div>
+
+                <CartControl :food="food" />
               </li>
             </ul>
           </li>
         </ul>
       </div>
-      <div class="shopCart"></div>
+      <ShopCart />
     </div>
     <Food :food="food" ref="foodshow"></Food>
   </div>
@@ -62,6 +63,7 @@ import { mapState } from 'vuex'
 import BScroll from 'better-scroll'
 import CartControl from '../../../components/cartControl/cartControl.vue'
 import Food from '../../../components/Food/Food.vue'
+import ShopCart from '../../../components/ShopCart/ShopCart.vue'
 
 export default {
   data () {
@@ -145,7 +147,7 @@ export default {
       this.foodScroll.scrollTo(0, -scroll, 300);
     },
     //顯示點擊的food
-    showFood(food) {
+    showFood(food, event) {
       //設置food組件
       this.food = food;
       //顯示food組件(在父組件調用子組件內的方法)
@@ -154,7 +156,8 @@ export default {
   },
   components: {
     CartControl,
-    Food
+    Food,
+    ShopCart
   },
   watch: {
     food: {

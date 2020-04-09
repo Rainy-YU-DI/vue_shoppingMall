@@ -43,6 +43,8 @@ export default {
       //food.count = 1;//新增count屬性，(但這樣新增沒辦法數據綁定)
       //要使用Vue.set(對象,屬性名,屬性值)
       Vue.set(food, "count", 1); //讓新增的屬性也有數據綁定
+      //將food添加到cartFoods中
+      state.cartFoods.push(food);
     } else {
       food.count++;
     }
@@ -51,6 +53,10 @@ export default {
     if (food.count) {
       //要有值才去減
       food.count--;
+      if (food.count === 0) {
+        //將food從cartFoods中移除
+        state.cartFoods.splice(state.cartFoods.indexOf(food), 1);
+      }
     }
   }
 };
