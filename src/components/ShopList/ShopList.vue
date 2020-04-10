@@ -20,7 +20,7 @@
             <div class="textRating">
               <!--星圖-->
               <div class="rating_left">
-                <Star :size="24" :scroe="shop.rating" />
+                <Star :size="24" :score="shop.rating" />
                 <div class="rateCount">{{ shop.rating }}</div>
               </div>
               <div class="rating_right">

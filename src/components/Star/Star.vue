@@ -1,6 +1,11 @@
 <template>
   <div class="star" :class="'star-' + size">
-    <span class="star-item" v-for="(sc, index) in starClasses" :class="sc" :key="index"></span>
+    <span
+      class="star-item"
+      v-for="(sc, index) in starClasses"
+      :class="sc"
+      :key="index"
+    ></span>
   </div>
 </template>
 
@@ -11,21 +16,21 @@ const CLASS_HALF = 'half'
 const CLASS_OFF = 'off'
 export default {
   props: {
-    scroe: Number,
+    score: Number,
     size: Number
   },
   computed: {
     starClasses () {
       // 條件
-      const { scroe } = this
+      const { score } = this
       const scs = []
       // 向scs中添加n個CLASS_ON
-      const onLength = Math.floor(scroe)
+      const onLength = Math.floor(score)
       for (let i = 0; i < onLength; i++) {
         scs.push(CLASS_ON)
       }
       // 向scs中添加n個CLASS_HALF
-      if (scroe * 10 - onLength * 10 >= 5) {
+      if (score * 10 - onLength * 10 >= 5) {
         scs.push(CLASS_HALF)
       }
       // 向scs中添加n個CLASS_OFF
@@ -39,7 +44,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /*星圖*/
 .star {
   float: left;
