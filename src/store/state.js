@@ -9,5 +9,5 @@ export default {
   goods: [], //商品列表
   ratings: [], //商家評價列表
   info: {}, //商家信息
-  cartFoods: [] //購物車中時務的列表
+  cartFoods: [] //購物車中食物的列表
 };

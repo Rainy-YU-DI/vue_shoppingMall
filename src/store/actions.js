@@ -10,6 +10,7 @@ import {
   reqUserInfo
 } from "../api";
 import {
+  CLEAR_CART,
   DECREMENT_FOOD_COUNT,
   INCREMENT_FOOD_COUNT,
   RECEIEVE_INFO,
@@ -110,5 +111,9 @@ export default {
     } else {
       commit(DECREMENT_FOOD_COUNT, { food });
     }
+  },
+  //不需要從後台取資料的都是同步:同步清除購物車
+  clearCart({ commit }) {
+    commit(CLEAR_CART);
   }
 };

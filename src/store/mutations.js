@@ -1,6 +1,7 @@
 /*直接更新state的多個方法的對象 */
 import Vue from "vue";
 import {
+  CLEAR_CART,
   DECREMENT_FOOD_COUNT,
   INCREMENT_FOOD_COUNT,
   RECEIEVE_INFO,
@@ -58,5 +59,11 @@ export default {
         state.cartFoods.splice(state.cartFoods.indexOf(food), 1);
       }
     }
+  },
+  [CLEAR_CART](state) {
+    //將foodCount清空
+    state.cartFoods.forEach(food => (food.count = 0));
+    //清空購物車
+    state.cartFoods = [];
   }
 };

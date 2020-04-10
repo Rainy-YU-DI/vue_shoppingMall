@@ -89,13 +89,13 @@ export default {
   vertical-align: middle;
 }
 /* 顯示時樣式 :原本CSS*/
-.move-enter-active,
-.move-leave-active {
+.material-icons.move-enter-active,
+.material-icons.move-leave-active {
   transition: all 0.3s;
 }
 /*消失時樣式 */
-.move-enter,
-.move-leave-to {
+.material-icons.move-enter,
+.material-icons.move-leave-to {
   opacity: 0;
   /*順序有關效果 */
   transform: translateX(30px) rotate(180deg);
