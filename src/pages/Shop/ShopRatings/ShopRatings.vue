@@ -1,23 +1,23 @@
 <template>
-  <div class="shopRatings">
-    <div class="shopRatingsBScroll">
+  <div class="shopRatings" ref="ratings">
+    <div class="shopRatingsInner">
       <div class="rating_Title">
         <div class="rating_Title_Left">
-          <span>4.2</span>
+          <span>{{ info.score }}</span>
           <span>綜合評分</span>
           <span>高於周邊商家99%</span>
         </div>
         <div class="rating_Title_Right">
           <div class="attitudeStar">
             <Star :size="36" :score="info.serviceScore" /><span>服務態度</span
-            ><span class="attitudetext_yellow">4.1</span>
+            ><span class="attitudetext_yellow">{{ info.serviceScore }}</span>
           </div>
           <div class="giveStar">
-            <Star :size="36" :score="info.serviceScore" /><span>商品評分</span
-            ><span class="attitudetext_yellow">4.3</span>
+            <Star :size="36" :score="info.foodScore" /><span>商品評分</span
+            ><span class="attitudetext_yellow">{{ info.foodScore }}</span>
           </div>
           <div class="rating_deliveryTime">
-            <span>送達時間</span><span>28分鐘</span>
+            <span>送達時間</span><span>{{ info.deliveryTime }}分鐘</span>
           </div>
         </div>
       </div>
@@ -25,13 +25,35 @@
       <div class="rating_content">
         <div class="rating_content_top">
           <div class="rating_filterGroup">
-            <div class="rating_filter_Button">全部24</div>
-            <div class="rating_filter_Button">滿意18</div>
-            <div class="rating_filter_Button">不滿意6</div>
+            <div
+              class="rating_filter_Button"
+              :class="{ selectType: selectRatingType === 2 }"
+              @click="changeSelectRatingType(2)"
+            >
+              全部{{ ratings.length }}
+            </div>
+            <div
+              class="rating_filter_Button"
+              :class="{ selectType: selectRatingType === 0 }"
+              @click="changeSelectRatingType(0)"
+            >
+              滿意{{ ratingAcount }}
+            </div>
+            <div
+              class="rating_filter_Button"
+              :class="{ selectType: selectRatingType === 1 }"
+              @click="changeSelectRatingType(1)"
+            >
+              不滿意{{ ratings.length - ratingAcount }}
+            </div>
           </div>
           <div class="onlyText">
             <div class="toggleText">
-              <span class="material-icons">
+              <span
+                class="material-icons"
+                :class="{ on: ratingOnlyShowText }"
+                @click="toggleShowText"
+              >
                 check_circle
               </span>
             </div>
@@ -40,29 +62,42 @@
         </div>
         <div class="rating_content_bottom">
           <ul class="rating_content_Ul">
-            <li class="rating_content_list">
+            <!-- 要過濾產生新的評價數組 -->
+            <li
+              class="rating_content_list"
+              v-for="(rating, index) in filterRatings"
+              :key="index"
+            >
               <div class="rating_content_list_left">
-                <span class="iconfont icon-huiyuan"> </span>
+                <img :src="rating.avatar" />
               </div>
               <div class="rating_content_list_middle">
-                <span>3*****c</span>
+                <span>{{ rating.username }}</span>
                 <div class="rating_content_star">
-                  <Star :size="24" :score="info.serviceScore" />
-                  <span>30</span>
+                  <Star :size="24" :score="rating.score" />
+                  <span>{{ rating.deliveryTime }}</span>
                 </div>
-                <span class="rating_content_list_middle_text"
-                  >我經常吃這一家000000000000000000000000000000000000</span
+                <span class="rating_content_list_middle_text">
+                  {{ rating.text }}</span
                 >
                 <div class="rating_content_list_middle_good">
-                  <span class="material-icons">
+                  <span class="material-icons" v-if="!rating.rateType">
                     thumb_up
                   </span>
-                  <div class="rating_content_list_middle_goodFood">南瓜粥</div>
-                  <div class="rating_content_list_middle_goodFood">
-                    皮蛋瘦肉粥
+                  <span class="material-icons" v-if="rating.rateType">
+                    thumb_down
+                  </span>
+                  <div
+                    class="rating_content_list_middle_goodFood"
+                    v-for="(item, index) in rating.recommend"
+                    :key="index"
+                  >
+                    {{ item }}
                   </div>
                 </div>
-                <div class="rating_content_list_top">2016-07-23 21:52:44</div>
+                <div class="rating_content_list_top">
+                  {{ rating.rateTime | dateformat }}
+                </div>
               </div>
             </li>
           </ul>
@@ -72,20 +107,82 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import BScroll from 'better-scroll'
+import { mapState, mapGetters } from 'vuex'
 import Star from '../../../components/Star/Star.vue'
 export default {
+  data () {
+    return {
+      ratingOnlyShowText: false,
+      selectRatingType: 2
+    }
+  },
+  mounted () {
+    this.$store.dispatch('getShopRatings', () => {
+      this.$nextTick(() => {
+        if (!this.scroll) {
+          this.scroll = new BScroll(this.$refs.ratings, {
+            click: true
+          })
+        }
+      })
+    })
+  },
+  methods: {
+    toggleShowText () {
+      this.ratingOnlyShowText = !this.ratingOnlyShowText
+    },
+    changeSelectRatingType (select) {
+      this.selectRatingType = select
+      console.log(this.selectRatingType)
+    }
+  },
   computed: {
-    ...mapState(['info'])
+    ...mapState(['info', 'ratings']),
+    ...mapGetters(['ratingAcount']),
+    filterRatings () {
+      /*
+      // 條件一:
+      selectRatingType:2=>全顯示
+     selectRatingType:0/1=>rateType;
+     結果:selectRatingType === 2 || selectRatingType === rateType
+
+      //條件二:
+       ratingOnlyShowText=false=>ratings.text.length=0
+      ratingOnlyShowText=true=>ratings.text.length>0
+      結果:!ratingOnlyShowText || text.length > 0
+       */
+      const { ratings, selectRatingType, ratingOnlyShowText } = this
+
+      return ratings.filter(rating => {
+        const { rateType, text } = rating
+        return (
+          (selectRatingType === 2 || selectRatingType === rateType) &&
+          (!ratingOnlyShowText || text.length > 0)
+        )
+      })
+    }
   },
   components: {
     Star
   }
 }
 </script>
-<style scoped>
+<style>
 @import url("../../../common/download/font_batbg34t7tl/iconfont.css");
-
+/*使用BScroll要設外層height:只有固定螢幕顯示到的高 必寫overflow: hidden;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 195px;*/
+/*像這邊就是讓.shopRatings高小,內容物.shopRatingsInner高為整組列表長，然後將BScroll設給.shopRatings*/
+.shopRatings {
+  overflow: hidden;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 195px;
+}
 .rating_Title {
   display: flex;
   height: 118px;
@@ -158,7 +255,7 @@ export default {
   width: 62px;
   height: 32px;
   display: inline-block;
-  background-color: #02a774;
+  background-color: rgb(117, 117, 117);
   color: rgb(255, 255, 255);
   font-size: 10px;
   text-align: center;
@@ -166,15 +263,24 @@ export default {
   line-height: 32px;
   margin-right: 10px;
 }
+.rating_filter_Button.selectType {
+  background-color: #02a774;
+}
 .onlyText {
   line-height: 29px;
 }
 .toggleText {
-  color: #02a774;
   display: inline-block;
   margin: auto;
 }
-.toggleText > span {
+.toggleText > span:not(.on) {
+  color: rgb(148, 147, 147);
+
+  display: inline-block;
+  vertical-align: middle;
+}
+.toggleText > span.on {
+  color: #02a774;
   display: inline-block;
   vertical-align: middle;
 }
@@ -183,24 +289,27 @@ export default {
   color: rgb(148, 147, 147);
 }
 .rating_content_Ul {
-  position: relative;
   margin: 0px;
   padding: 15px;
 }
 .rating_content_list {
   display: flex;
   border-bottom: 1px solid rgb(185, 184, 184);
+  margin-bottom: 15px;
 }
 .rating_content_list_left {
   left: 0;
   margin-right: 10px;
 }
-.rating_content_list_left > span {
-  font-size: 30px;
-  color: blue;
+.rating_content_list_left > img {
+  width: 30px;
+  height: 30px;
+
   display: inline-block;
 }
 .rating_content_list_middle {
+  position: relative;
+  width: 100%;
   text-align: left;
   margin-bottom: 10px;
   box-sizing: border-box;
@@ -210,10 +319,10 @@ export default {
   font-size: 13px;
 }
 .rating_content_list_middle_text {
-  display: block;
+  display: inline-block;
   width: 100%;
-  background-color: cornflowerblue;
   margin-top: 5px;
+  text-align: left;
 }
 .rating_content_list_middle_good {
   margin-top: 5px;
@@ -236,11 +345,12 @@ export default {
   color: rgb(185, 184, 184);
   box-sizing: border-box;
   margin-right: 3px;
+  margin-bottom: 3px;
 }
 .rating_content_list_top {
   position: absolute;
-  top: 15px;
-  right: 10px;
+  top: 0px;
+  right: 0px;
   font-size: 14px;
   color: rgb(185, 184, 184);
 }

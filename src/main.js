@@ -5,9 +5,10 @@ import { Button } from "mint-ui";
 import Vue from "vue";
 import "../src/mock/mockServer.js"; //加載mockServer即可(像CSS，他也沒暴露)
 import App from "./App";
+//時間模塊
+import "./filter/index";
 import router from "./router";
 import store from "./store";
-
 Vue.config.productionTip = false;
 //註冊全局組件標籤
 Vue.component(Button.name, Button);

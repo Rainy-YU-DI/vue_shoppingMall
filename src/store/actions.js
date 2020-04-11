@@ -89,11 +89,13 @@ export default {
     }
   },
   //獲取商家評論
-  async getShopRatings({ commit }) {
+  async getShopRatings({ commit }, callback) {
     const result = await reqShopRatings();
     if (result.code === 0) {
       const ratings = result.data;
       commit(RECEIVE_RATINGS, { ratings });
+      //數據更新了通知一下組件(取得頁面資料後滑動效果才顯示)
+      callback && callback();
     }
   },
   //獲取商家資訊

@@ -237,6 +237,7 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   margin: auto;
+  z-index: 1;
 }
 .fade-enter-active,
 .fade-leave-active {
