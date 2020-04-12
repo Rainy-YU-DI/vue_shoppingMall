@@ -3,15 +3,19 @@
     <HeaderTop title="訂單列表"></HeaderTop>
     <div class="order_content">
       <div class="no_login"></div>
-      <div class="no_login_text">尚未登入</div>
+      <div class="no_login_text" v-if="!userInfo.name">尚未登入</div>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import HeaderTop from '@/components/headerTop.vue'
 export default {
   components: {
     HeaderTop
+  },
+  computed: {
+    ...mapState(['userInfo'])
   }
 }
 </script>

@@ -3,6 +3,7 @@ import {
   reqAddress,
   reqFoodCategorys,
   reqLogout,
+  reqSearchShops,
   reqShopGoods,
   reqShopInfo,
   reqShopRatings,
@@ -19,6 +20,7 @@ import {
   RECEIVE_RATINGS,
   RECEIVE_SHOPS,
   RECIEVE_GOODS,
+  RECIEVE_SEARCH_SHOPS,
   RECIEVE_USER_INFO,
   RESET_USER_INFO
 } from "./mutation-types";
@@ -62,7 +64,7 @@ export default {
     commit(RECIEVE_USER_INFO, { userInfo });
   },
 
-  //異步獲取用戶會繣訊息
+  //異步獲取用戶登入訊息
   async getUserInfo({ commit }) {
     const result = await reqUserInfo();
     if (result.code === 0) {
@@ -117,5 +119,16 @@ export default {
   //不需要從後台取資料的都是同步:同步清除購物車
   clearCart({ commit }) {
     commit(CLEAR_CART);
+  },
+  //異步獲取搜索商家數組
+  async searchShops({ commit, state }, keyword) {
+    //發送異步ajax請求
+    const geohash = state.latitude + "," + state.longitude;
+    const result = await reqSearchShops(geohash, keyword);
+    //提交一個mutation
+    if (result.code === 0) {
+      const searchShops = result.data;
+      commit(RECIEVE_SEARCH_SHOPS, { searchShops });
+    }
   }
 };

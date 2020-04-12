@@ -3,13 +3,20 @@
     <ShopHeader />
     <div class="tab">
       <div class="tab-item">
-        <router-link active-class="active" to="/shop/goods">點餐</router-link>
+        <!-- 這邊router-link使用replace代替push,不然頁面回上一頁會跳來跳去-->
+        <router-link active-class="active" to="/shop/goods" replace
+          >點餐</router-link
+        >
       </div>
       <div class="tab-item">
-        <router-link active-class="active" to="/shop/ratings">評價</router-link>
+        <router-link active-class="active" to="/shop/ratings" replace
+          >評價</router-link
+        >
       </div>
       <div class="tab-item">
-        <router-link active-class="active" to="/shop/info">商家</router-link>
+        <router-link active-class="active" to="/shop/info" replace
+          >商家</router-link
+        >
       </div>
     </div>
     <keep-alive><router-view /></keep-alive>

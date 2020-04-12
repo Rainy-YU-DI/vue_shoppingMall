@@ -2,14 +2,16 @@
   <div class="msite">
     <!-- 首頁頭部 -->
     <HeaderTop :title="address.name">
-      <router-link class="slotLeft" slot="left" to="/search">
-        <span class="iconfont icon-sousuo"> </span>
+      <router-link class="slotLeft" tag="a" slot="left" to="/search">
+        <span>
+          <i class="iconfont icon-sousuo"></i>
+        </span>
       </router-link>
 
       <router-link
         class="slotRight"
         slot="right"
-        :to="userInfo._id ? '/userInfo' : '/login'"
+        :to="userInfo._id ? '/profile' : '/login'"
       >
         <span v-if="!userInfo._id">登入|註冊</span>
         <span v-else>
@@ -125,7 +127,7 @@ export default {
 @import url("../../common/download/font_batbg34t7tl/iconfont.css");
 .msite {
   width: 100%;
-  overflow-x: none;
+  overflow-x: hidden;
 }
 .slotLeft {
   position: absolute;

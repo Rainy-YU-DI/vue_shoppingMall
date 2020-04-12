@@ -4,40 +4,40 @@
       <div class="deliveryMessageGroup">
         <h4>配送信息</h4>
         <div class="deliveryMessage">
-          <div class="blueTag">雨滴專送</div>
+          <div class="blueTag">{{ info.description }}</div>
           <span
-            >由商家配送由商家配送由商家配送由商家配送由商家配送由商家配送由商家配送</span
+            >由商家提供配送,約{{ info.deliveryTime }}分鐘配送，距離{{
+              info.distance
+            }}</span
           >
-          <span>配送費$4</span>
+          <span>配送費${{ info.deliveryPrice }}</span>
         </div>
       </div>
       <div class="shopInfo_bar"></div>
       <div class="shopInfoActivity">
         <h4>活動與服務</h4>
         <ul class="shopInfoActivityUl">
-          <li class="shopInfoActivityLi">
-            <div class="activityTag">首單</div>
-            <span class="activityText">新用戶下單000000000000000</span>
-          </li>
-          <li class="shopInfoActivityLi">
-            <div class="activityTag">首單</div>
-            <span class="activityText">新用戶下單000000000000000</span>
-          </li>
-          <li class="shopInfoActivityLi">
-            <div class="activityTag">首單</div>
-            <span class="activityText">新用戶下單000000000000000</span>
+          <li
+            class="shopInfoActivityLi"
+            v-for="(support, index) in info.supports"
+            :key="index"
+          >
+            <div class="activityTag" :class="supportClasses[support.type]">
+              {{ support.name }}
+            </div>
+            <span class="activityText">{{ support.content }}</span>
           </li>
         </ul>
       </div>
       <div class="shopInfo_bar"></div>
       <div class="shopInfoRealGroup">
         <h4>商家實景</h4>
-        <div clsaa="shopInfoRealImgs">
-          <div class="shopInfoRealImgsBScroll">
-            <li v-for="(pic, index) in info.pics" :key="index">
-              <!--  <img :src="pic" style="width:120px;height:90px" /> -->
+        <div class="shopInfoRealImgs">
+          <ul class="shopInfoRealImgsBScroll" ref="picUl">
+            <li v-for="(pic, index) in info.pics" :key="index" ref="picLi">
+              <img :src="pic" style="width:120px;height:90px" />
             </li>
-          </div>
+          </ul>
         </div>
       </div>
       <div class="shopInfo_bar"></div>
@@ -48,21 +48,19 @@
         <div class="shopInfoPlaceItemGroup">
           <div class="shopInfoPlaceItem">
             <span class="shopInfoPlaceItemTitle">品類</span>
-            <span class="shopInfoPlaceItemTitle2">包子粥店簡餐</span>
+            <span class="shopInfoPlaceItemTitle2">{{ info.category }}</span>
           </div>
           <div class="shopInfoPlaceItem">
             <span class="shopInfoPlaceItemTitle">商家電話</span>
-            <span class="shopInfoPlaceItemTitle2">18501083744</span>
+            <span class="shopInfoPlaceItemTitle2">{{ info.phone }}</span>
           </div>
           <div class="shopInfoPlaceItem">
             <span class="shopInfoPlaceItemTitle">地址</span>
-            <span class="shopInfoPlaceItemTitle2"
-              >包北京市豐台區太平橋44號</span
-            >
+            <span class="shopInfoPlaceItemTitle2">{{ info.address }}</span>
           </div>
           <div class="shopInfoPlaceItem">
             <span class="shopInfoPlaceItemTitle">營業時間</span>
-            <span class="shopInfoPlaceItemTitle2">09:35-24:00</span>
+            <span class="shopInfoPlaceItemTitle2">{{ info.workTime }}</span>
           </div>
         </div>
       </div>
@@ -70,10 +68,52 @@
   </div>
 </template>
 <script>
+import BScroll from 'better-scroll'
 import { mapState } from 'vuex'
 export default {
+  data () {
+    return {
+      supportClasses: ['active-green', 'active-red', 'active-orange']
+    }
+  },
   computed: {
     ...mapState(['info'])
+  },
+  mounted () {
+    // 如果還沒有數據info.pics，直接結束
+    if (!this.info.pics) {
+      return
+    }
+
+    // info.pics數據已經有了的作法:可以在掛載時直接創建BScroll
+    this._initBscroll()
+  },
+  // 在直接頁面刷新時會有info.pics數據
+  watch: {
+    info () {
+      // 刷新流程-->更新數據
+      this.$nextTick(() => {
+        this._initBscroll()
+      })
+    }
+  },
+  methods: {
+    _initBscroll () {
+      var scroll = new BScroll('.shopInfo')
+      console.log(scroll)
+
+      // 計算shopInfoRealImgsBScroll Ul的寬
+      const ul = this.$refs.picUl
+      const liWidth = 120
+      const space = 5
+      const ulCount = this.info.pics.length
+      ul.style.width = (liWidth + space) * ulCount - space + 'px'
+
+      var scroll02 = new BScroll('.shopInfoRealImgs', {
+        scrollX: true // 設定為水平滑動
+      })
+      console.log(scroll02)
+    }
   }
 }
 </script>
@@ -81,7 +121,7 @@ export default {
 .shopInfo {
   display: block;
   position: absolute;
-  /*  overflow: hidden; */
+  overflow: hidden;
   top: 194px;
   bottom: 0;
   margin: 0;
@@ -139,42 +179,49 @@ h4 {
   display: inline-block;
   font-size: 13px;
   color: rgb(255, 255, 255);
-  background-color: #70bc46;
+
   border-radius: 5px;
   padding: 3px;
   box-sizing: border-box;
   margin-right: 5px;
+}
+.activityTag.active-green {
+  background-color: #70bc46;
+}
+.activityTag.active-red {
+  background-color: #f07373;
+}
+.activityTag.active-orange {
+  background-color: #eb7506;
 }
 .shopInfoActivityLi {
   font-size: 13px;
   margin-bottom: 12px;
 }
 .shopInfoRealGroup {
-  height: 124px;
   padding: 14px;
   text-align: left;
   box-sizing: border-box;
 }
 .shopInfoRealImgs {
-  width: 100%;
-  white-space: nowrap;
   overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 .shopInfoRealImgsBScroll {
-  position: relative;
-  display: block;
+  white-space: nowrap;
+  padding: 0;
+  margin: 0;
 }
 .shopInfoRealImgsBScroll > li {
   display: inline-block;
   font-size: 0;
-  width: auto;
-}
-.shopInfoRealImgsBScroll > li > img {
-  display: inline-block;
   margin-right: 5px;
 }
+.shopInfoRealImgsBScroll > li:nth-last-of-type(1) {
+  margin-right: 0px;
+}
 .shopInfoPlaceGroup {
-  height: 124px;
   padding: 14px;
   text-align: left;
   box-sizing: border-box;

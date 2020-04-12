@@ -10,6 +10,7 @@ import {
   RECEIVE_RATINGS,
   RECEIVE_SHOPS,
   RECIEVE_GOODS,
+  RECIEVE_SEARCH_SHOPS,
   RECIEVE_USER_INFO,
   RESET_USER_INFO
 } from "./mutation-types";
@@ -65,5 +66,8 @@ export default {
     state.cartFoods.forEach(food => (food.count = 0));
     //清空購物車
     state.cartFoods = [];
+  },
+  [RECIEVE_SEARCH_SHOPS](state, { searchShops }) {
+    state.searchShops = searchShops;
   }
 };

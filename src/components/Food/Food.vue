@@ -2,7 +2,7 @@
   <div class="food" v-if="isShow">
     <div class="content">
       <div class="upper">
-        <img :src="food.images" />
+        <img v-lazy="food.image" />
         <p>{{ food.info }}</p>
       </div>
       <div class="down">

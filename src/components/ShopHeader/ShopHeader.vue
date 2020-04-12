@@ -166,7 +166,6 @@ export default {
 .shopModal_content_one > span:nth-child(1) {
   display: inline-block;
   background-color: yellow;
-
   color: rgb(126, 79, 9);
   font-size: 4px;
   font-weight: 600;
@@ -220,7 +219,6 @@ export default {
 }
 .titleImg {
   position: absolute;
-
   left: calc(50% - 33px);
   top: -40px;
   background: url("../../common/img/1.jpg") center center no-repeat;
@@ -241,7 +239,7 @@ export default {
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 3s;
+  transition: opacity 0.3s;
 }
 .fade-enter,
 .fade-leave-to {

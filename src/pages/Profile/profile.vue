@@ -13,7 +13,7 @@
         </div>
         <div class="user-info">
           <div class="userGroup">
-            <p class="user-info-top" v-if="!userInfo.pnone">
+            <p class="user-info-top">
               {{ userInfo.name || "登錄/注冊" }}
             </p>
             <p class="user-icon">
@@ -21,7 +21,7 @@
                 <i class="iconfont icon-huiyuan"></i>
               </span>
               <span class="phone-number">{{
-                userInfo.pnone || "暫無綁定手機號碼"
+                userInfo.phone || "暫無綁定手機號碼"
               }}</span>
             </p>
           </div>

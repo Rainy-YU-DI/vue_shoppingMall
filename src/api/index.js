@@ -11,6 +11,8 @@ export const reqFoodCategorys = () => ajax(BASE + "/index_category");
 export const reqShops = (longitude, latitude) =>
   ajax(BASE + "/shops", { longitude, latitude });
 //[4、根据经纬度和关键字搜索商铺列表]
+export const reqSearchShops = (geohash, keyword) =>
+  ajax(BASE + "/search_shops", { geohash, keyword });
 //[5、获取一次性验证码]:不用,直接用src="http://localhost:4000/captcha"
 //[6、用户名密码登陆]
 /* export const reqPwdLogin = ({ name, pwd, captcha }) =>
