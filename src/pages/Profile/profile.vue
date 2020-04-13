@@ -4,10 +4,7 @@
     <HeaderTop title="會員資訊"></HeaderTop>
     <!--會員登入顯示狀態-->
     <section class="profile_number">
-      <router-link
-        :to="userInfo._id ? '/userInfo' : '/login'"
-        class="profile_link"
-      >
+      <router-link :to="!userInfo.name ? '/login' : ''" class="profile_link">
         <div class="profile_image">
           <i class="iconfont icon-gerenzhongxin"></i>
         </div>
@@ -26,37 +23,12 @@
             </p>
           </div>
         </div>
-        <span class="arrow">
+        <span class="arrow" v-if="!userInfo.name">
           <i class="iconfont icon-chevron-right"></i>
         </span>
       </router-link>
     </section>
-    <!--會員卡內容-->
-    <section class="profile_info_data">
-      <ul class="info_data_list">
-        <a href="javascript:" class="info_data_link">
-          <span>
-            0.00
-            <span>元</span>
-          </span>
-          <span class="info_data_bottom">我的余額</span>
-        </a>
-        <a href="javascript:;" class="info_data_link">
-          <span>
-            0
-            <span>個</span>
-          </span>
-          <span class="info_data_bottom">我的優惠</span>
-        </a>
-        <a href="javascript:;" class="info_data_link">
-          <span>
-            0
-            <span>分</span>
-          </span>
-          <span class="info_data_bottom">我的積分</span>
-        </a>
-      </ul>
-    </section>
+
     <!-- 我的資料列表 -->
     <section class="profile_my_order">
       <!-- 我的訂單 -->
@@ -71,44 +43,26 @@
           </span>
         </div>
       </a>
-      <!-- 積分商城 -->
-      <a href="javascript:;">
-        <span>
-          <i class="iconfont icon-yusuanguanli"></i>
-        </span>
-        <div class="my_order_div">
-          <span>積分商城</span>
-          <span class="my_order_icon">
-            <i class="iconfont icon-chevron-right"></i>
-          </span>
+      <!--若有登入顯示會員資料-->
+      <section class="accountInfo" v-if="userInfo.name">
+        <div class="accountInfoList">
+          <span class="accountInfoList_top">資本會員資料</span>
+          <div class="accountInfoList_left">
+            <span class="accountInfoList_title">名稱</span>
+            <span class="accountInfoList_title">性別</span>
+            <span class="accountInfoList_title">生日</span>
+            <span class="accountInfoList_title">手機</span>
+          </div>
+          <div class="accountInfoList_right">
+            <span class="accountInfoList_content">雨滴</span>
+            <span class="accountInfoList_content">女</span>
+            <span class="accountInfoList_content">1992/06/03</span>
+            <span class="accountInfoList_content">0912333666</span>
+          </div>
         </div>
-      </a>
-      <!-- 會員卡-->
-      <a href="javascript:;">
-        <span>
-          <i class="iconfont icon-huiyuan"></i>
-        </span>
-        <div class="my_order_div">
-          <span>會員卡</span>
-          <span class="my_order_icon">
-            <i class="iconfont icon-chevron-right"></i>
-          </span>
-        </div>
-      </a>
-      <!-- 服務中心-->
-      <a href="javascript:;">
-        <span>
-          <i class="iconfont icon-fuwushangchaxunsvg"></i>
-        </span>
-        <div class="my_order_div">
-          <span>服務中心</span>
-          <span class="my_order_icon">
-            <i class="iconfont icon-chevron-right"></i>
-          </span>
-        </div>
-      </a>
+      </section>
       <!--退出登入按鍵-->
-      <section>
+      <section v-if="userInfo.name">
         <mt-button type="danger" style="width:100%" @click="logout"
           >退出登入</mt-button
         >
@@ -143,7 +97,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 @import url("../../common/download/font_batbg34t7tl/iconfont.css");
 .profile_my_order {
   width: 100%;
@@ -238,44 +192,7 @@ export default {
   display: inline-block;
   vertical-align: middle;
 }
-.profile_info_data {
-  font-size: 0;
-  height: 81px;
-}
-.info_data_list {
-  display: flex;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border-bottom: 1px solid gray;
-}
-.info_data_list > a {
-  flex: 1;
-  text-align: center;
-  text-decoration: none;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.info_data_list > a:not(:nth-child(3)) {
-  border-right: 1px solid gray;
-}
-.info_data_list > a > span {
-  display: block;
-  width: 100%;
-  font-size: 14px;
-  color: rgb(124, 122, 122);
-}
 
-.info_data_list > a > span:nth-child(1) {
-  font-size: 22px;
-
-  color: rgb(250, 205, 3);
-}
-.info_data_list > a > span:nth-child(1) > span {
-  font-size: 14px;
-  color: rgb(0, 0, 0);
-}
 .profile_my_order {
   border-top: 1px solid grey;
   margin-top: 15px;
@@ -311,5 +228,44 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+/* 會員資料明細 */
+.accountInfo {
+  padding: 0px 20px 0px;
+}
+.accountInfo > .accountInfoList {
+  position: relative;
+  margin: 20px 0px;
+  text-align: left;
+  border: 4px solid gold;
+  border-radius: 5px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.accountInfoList_top {
+  font-weight: 600;
+  display: block;
+}
+.accountInfoList > .accountInfoList_left {
+  font-weight: 600;
+}
+.accountInfoList > .accountInfoList_right {
+  position: absolute;
+
+  top: 23px;
+  right: 5px;
+  height: 80px;
+}
+.accountInfoList_title {
+  display: block;
+  box-sizing: border-box;
+  border-bottom: 1px solid #dbdbdb;
+}
+.accountInfoList_content {
+  display: block;
+}
+.accountInfoList_content:nth-of-type(2),
+.accountInfoList_content:nth-of-type(3) {
+  margin: 2px 0px;
 }
 </style>

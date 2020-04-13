@@ -136,6 +136,7 @@ export default {
   left: 0;
   color: aliceblue;
   text-decoration: none;
+  z-index: 1;
 }
 .slotRight {
   position: absolute;

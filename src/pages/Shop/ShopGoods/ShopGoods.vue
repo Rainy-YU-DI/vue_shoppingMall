@@ -160,7 +160,7 @@ export default {
     ShopCart
   },
   watch: {
-    food: {
+    Food: {
       deep: true,
       handler: {
         food(newCount, oldCount) {

@@ -105,7 +105,7 @@
         <a href="javascript:;" class="about_us">關於我們</a>
       </div>
       <a href="javascript:" class="go_back" @click="$router.back()">
-        <i class="iconfont icon-chevron-right"></i>
+        <i class="iconfont  icon-chevron-left"></i>
       </a>
     </div>
 
@@ -249,7 +249,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url("../../common/download/font_batbg34t7tl/iconfont.css");
 * {
   margin: 0;

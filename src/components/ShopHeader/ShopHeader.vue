@@ -32,11 +32,12 @@
         }}</span>
         <span>{{ info.supports[0].content }}</span>
       </div>
-      <div class="headFooter_right">
-        <span>8個優惠</span>
-        <a class="iconfont icon-chevron-right"></a>
+      <div class="headFooter_right" v-if="info.supports">
+        <span>{{ info.supports.length }}個優惠</span>
+        <a class="iconfont icon-chevron-right" @click="toggleShopAcitity"></a>
       </div>
     </div>
+    <!--商家彈跳名細-->
     <transition name="fade">
       <div class="shopModal" v-show="shopShow">
         <div class="black">
@@ -73,7 +74,31 @@
         </div>
       </div>
     </transition>
-    <div class="activitySheet" v-show="supportShow"></div>
+    <!--商家優惠名細-->
+    <transition name="fade">
+      <div class="shopModal" v-show="shopAcitity">
+        <div class="shopAcitity_black">
+          <div class="shopAcitity_content">
+            <span>優惠活動</span>
+            <div class="shopAcitityClose">
+              <i class="material-icons" @click="toggleShopAcitity">cancel</i>
+            </div>
+            <ul class="shopInfoActivityUl">
+              <li
+                class="shopInfoActivityLi"
+                v-for="(support, index) in info.supports"
+                :key="index"
+              >
+                <div class="activityTag" :class="supportClasses[support.type]">
+                  {{ support.name }}
+                </div>
+                <span class="activityText">{{ support.content }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 <script>
@@ -83,7 +108,7 @@ export default {
     return {
       supportClasses: ['activity-green', 'activity-red', 'activity-orange'],
       shopShow: false,
-      supportShow: false
+      shopAcitity: false
     }
   },
   computed: {
@@ -93,13 +118,13 @@ export default {
     toggleShopShow () {
       this.shopShow = !this.shopShow
     },
-    toggleSupportShow () {
-      this.supportShow = !this.supportShow
+    toggleShopAcitity () {
+      this.shopAcitity = !this.shopAcitity
     }
   }
 }
 </script>
-<style>
+<style scoped>
 @import url("../../common/download/font_batbg34t7tl/iconfont.css");
 /* */
 @font-face {
@@ -204,15 +229,7 @@ export default {
   vertical-align: middle;
   line-height: 25px;
 }
-.activity-green {
-  background-color: rgb(19, 233, 19);
-}
-.activity-red {
-  background-color: rgb(252, 8, 8);
-}
-.activity-orange {
-  background-color: rgb(241, 177, 93);
-}
+
 .headFooter_right {
   vertical-align: middle;
   line-height: 20px;
@@ -236,6 +253,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.6);
   margin: auto;
   z-index: 1;
+  overflow: hidden;
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -304,5 +322,61 @@ export default {
   text-align: left;
   font-size: 6px;
   margin-bottom: 20px;
+}
+/*優惠活動彈跳視窗 */
+.shopAcitity_black {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 240px;
+  background-color: rgb(235, 235, 235);
+}
+.shopAcitity_content {
+  padding: 20px 10px 10px 20px;
+  text-align: center;
+}
+.shopAcitity_content > span {
+  font-weight: 600;
+  font-size: 24px;
+}
+.shopAcitityClose {
+  position: absolute;
+  display: inline-block;
+  top: 10px;
+  right: 10px;
+}
+.shopInfoActivityUl {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  top: 70px;
+  bottom: 0px;
+  width: 100%;
+  overflow-y: auto;
+  text-align: left;
+}
+.activityTag {
+  display: inline-block;
+  font-size: 13px;
+  color: rgb(255, 255, 255);
+
+  border-radius: 5px;
+  padding: 3px;
+  box-sizing: border-box;
+  margin-right: 5px;
+}
+.activityTag.activity-green {
+  background-color: #70bc46;
+}
+.activityTag.activity-red {
+  background-color: #f07373;
+}
+.activityTag.activity-orange {
+  background-color: #eb7506;
+}
+.shopInfoActivityLi {
+  font-size: 13px;
+  margin-bottom: 12px;
 }
 </style>
