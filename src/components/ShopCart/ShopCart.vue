@@ -18,11 +18,15 @@
           <p>另需配送費${{ info.deliveryPrice }}元</p>
         </div>
       </div>
-      <div class="cartRight" :class="payClass">
+      <router-link
+        :to="payText === '結算' ? '/order' : ''"
+        class="cartRight"
+        :class="payClass"
+      >
         <div class="pay">
           {{ payText }}
         </div>
-      </div>
+      </router-link>
     </div>
     <transition name="listUp">
       <div class="cartList" v-show="listShow">
