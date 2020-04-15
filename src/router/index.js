@@ -1,10 +1,12 @@
 import Login from "@/pages/Login/Login.vue";
+import OrderPay from "@/pages/OrderPay/OrderPay.vue";
 import Shop from "@/pages/Shop/Shop.vue";
 import ShopGoods from "@/pages/Shop/ShopGoods/ShopGoods.vue";
 import ShopInfo from "@/pages/Shop/ShopInfo/ShopInfo.vue";
 import ShopRatings from "@/pages/Shop/ShopRatings/ShopRatings.vue";
 import Vue from "vue";
 import Router from "vue-router";
+
 /* import Msite from "@/pages/MSite/msite.vue";
 import Order from "@/pages/Order/order.vue";
 import Profile from "@/pages/Profile/profile.vue";
@@ -28,6 +30,7 @@ export default new Router({
     {
       path: "/order",
       component: Order,
+
       meta: {
         showFooter: true
       }
@@ -53,6 +56,14 @@ export default new Router({
         showFooter: false
       }
     },
+    {
+      path: "/orderpay",
+      component: OrderPay,
+      meta: {
+        showFooter: false
+      }
+    },
+
     {
       path: "/",
       redirect: "msite"

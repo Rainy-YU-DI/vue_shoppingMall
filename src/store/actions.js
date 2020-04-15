@@ -13,6 +13,7 @@ import {
 import {
   CLEAR_CART,
   DECREMENT_FOOD_COUNT,
+  DELETE_THIS_ITEM,
   INCREMENT_FOOD_COUNT,
   RECEIEVE_INFO,
   RECEIVE_ADDRESS,
@@ -130,5 +131,9 @@ export default {
       const searchShops = result.data;
       commit(RECIEVE_SEARCH_SHOPS, { searchShops });
     }
+  },
+  //同步刪除該項訂單
+  deleteThisItem({ commit }, index) {
+    commit(DELETE_THIS_ITEM, { index });
   }
 };

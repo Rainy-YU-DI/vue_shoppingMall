@@ -15,3 +15,5 @@ export const DECREMENT_FOOD_COUNT = "decrement_food_count"; //減少food中的co
 export const CLEAR_CART = "clear_cart"; //清除購物車
 
 export const RECIEVE_SEARCH_SHOPS = "receive_search_shops"; //接收搜尋的商品數組
+
+export const DELETE_THIS_ITEM = "delete_this_item"; //接收搜尋的商品數組

@@ -3,6 +3,7 @@ import Vue from "vue";
 import {
   CLEAR_CART,
   DECREMENT_FOOD_COUNT,
+  DELETE_THIS_ITEM,
   INCREMENT_FOOD_COUNT,
   RECEIEVE_INFO,
   RECEIVE_ADDRESS,
@@ -69,5 +70,9 @@ export default {
   },
   [RECIEVE_SEARCH_SHOPS](state, { searchShops }) {
     state.searchShops = searchShops;
+  },
+
+  [DELETE_THIS_ITEM](state, { index }) {
+    state.cartFoods.splice(index, 1);
   }
 };
