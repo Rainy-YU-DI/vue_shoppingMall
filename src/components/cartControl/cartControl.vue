@@ -5,17 +5,10 @@
         class="material-icons"
         v-if="food.count"
         v-on:click.stop.prevent="updateFoodCount(false)"
-      >
-        remove_circle_outline
-      </span>
+      >remove_circle_outline</span>
     </transition>
     <p v-if="food.count">{{ food.count }}</p>
-    <span
-      class="material-icons"
-      v-on:click.stop.prevent="updateFoodCount(true)"
-    >
-      add_circle
-    </span>
+    <span class="material-icons" v-on:click.stop.prevent="updateFoodCount(true)">add_circle</span>
   </div>
 </template>
 <script>

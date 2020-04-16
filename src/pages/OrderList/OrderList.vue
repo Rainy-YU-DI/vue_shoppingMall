@@ -1,11 +1,7 @@
 <template>
   <div class="OrderList">
     <div class="check_up">
-      <div
-        class="orderItemCheck"
-        v-for="(food, index) in cartFoods"
-        :key="index"
-      >
+      <div class="orderItemCheck" v-for="(food, index) in cartFoods" :key="index">
         <div class="ItemCheckIndex">
           訂單{{ index + 1 }}
           <div class="deleteItem" @click="deleteThisItem(index)">刪除</div>
@@ -14,14 +10,14 @@
           <span>商品名稱:{{ food.name }}</span>
           <span>數量:{{ food.count }}</span>
           <span>金額:{{ sigleItemPrice(food) }}</span>
-          <span>狀態:未付款</span>
         </div>
       </div>
       <div class="payGroup">
         <div class="payGroupTitle">結帳明細</div>
         <div class="payGroupContent">
           <div class="totalChooseCount">
-            商品結帳金額:<span>${{ totalPrice }}</span>
+            商品結帳金額:
+            <span>${{ totalPrice }}</span>
           </div>
         </div>
         <router-link to="/orderpay">
