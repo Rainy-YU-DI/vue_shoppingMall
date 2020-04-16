@@ -26,129 +26,165 @@
       </div>
     </div>
     <div class="payMethodsGroup" v-if="page === 'payMethodsGroup'">
-      <div class="formTitle">選擇支付方式</div>
-      <div class="methodButtonGroup">
-        <div
-          class="methodButton"
-          :class="{ activePayMethod: changeMethod }"
-          @click="payMethod(true)"
-        >
-          信用卡付款
+      <div class="scrollY">
+        <div class="formTitle">選擇支付方式</div>
+        <div class="methodButtonGroup">
+          <div
+            class="methodButton"
+            :class="{ activePayMethod: changeMethod }"
+            @click="payMethod(true)"
+          >
+            信用卡付款
+          </div>
+          <div
+            class="methodButton"
+            :class="{ activePayMethod: !changeMethod }"
+            @click="payMethod(false)"
+          >
+            超商付款
+          </div>
         </div>
-        <div
-          class="methodButton"
-          :class="{ activePayMethod: !changeMethod }"
-          @click="payMethod(false)"
-        >
-          超商付款
+        <!--  信用卡 -->
+        <div class="creditCardMethod" v-if="changeMethod">
+          <!--  請輸入信用卡卡號 -->
+          <form>
+            <div :class="{ wrongText: wrongText[0].state }">
+              <div class="creditText">
+                請輸入信用卡卡號<span> {{ wrongText[0].message }}</span>
+              </div>
+              <div class="formInGroup">
+                <div
+                  class="formIn"
+                  v-for="(item, index) in inputCardNumber"
+                  :key="index"
+                >
+                  <input
+                    type="text"
+                    v-model="item.val"
+                    class="CardNumberform"
+                    maxlength="4"
+                    @keydown="setBlur($event, index)"
+                  />
+                  <div class="symbol">-</div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <!--  請輸入信用卡期限 -->
+          <form>
+            <div :class="{ wrongText: wrongText[1].state }">
+              <div class="creditText">
+                請輸入信用卡期限<span> {{ wrongText[1].message }} </span>
+              </div>
+              <div class="formInGroup">
+                <div
+                  class="formIn"
+                  v-for="(item, index) in inputCardDate"
+                  :key="index"
+                >
+                  <input
+                    type="text"
+                    v-model="item.val"
+                    class="inputDate"
+                    maxlength="2"
+                    @keydown="setBlur2($event, index)"
+                  />
+                  <div class="symbol">/</div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <!--  請輸入信用卡背後安全碼 -->
+          <form>
+            <div :class="{ wrongText: wrongText[2].state }">
+              <div class="creditText ">
+                請輸入信用卡背後安全碼 <span> {{ wrongText[2].message }} </span>
+              </div>
+              <div class="formInGroup">
+                <div
+                  class="formIn"
+                  v-for="(item, index) in inputCardSaveNum"
+                  :key="index"
+                >
+                  <input
+                    type="text"
+                    v-model="item.val"
+                    class="inputSaveNum"
+                    maxlength="3"
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
-      </div>
-      <!--  信用卡 -->
-      <div class="creditCardMethod" v-if="changeMethod">
-        <!--  請輸入信用卡卡號 -->
-        <form>
-          <div :class="{ wrongText: wrongText[0].state }">
-            <div class="creditText">請輸入信用卡卡號</div>
-            {{ wrongText[0].message }}
-            <div v-for="(item, index) in inputCardNumber" :key="index">
+        <!--  超商-->
+
+        <div class="shopMethod" v-if="!changeMethod">
+          <!-- 請選擇超商 -->
+          <ul class="chooseShop">
+            <li class="checkboxBig">
+              <input
+                type="radio"
+                name="shop"
+                id="shop1"
+                checked
+                v-model="shopMethod1"
+                value="7-11 ibon付款"
+              />
+              <div class="smcircle">
+                <label for="shop1">7-11 ibon付款</label>
+              </div>
+            </li>
+            <li class="checkboxBig">
+              <input
+                type="radio"
+                name="shop"
+                id="shop2"
+                v-model="shopMethod1"
+                value="全家FamiPort付款"
+              />
+              <div class="smcircle">
+                <label for="shop2">全家FamiPort付款</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 優惠代碼 -->
+        <div class="couponGroup">
+          <div :class="{ wrongText: wrongText[3].state }">
+            <div class="creditText">
+              請輸入優惠碼<span>{{ wrongText[3].message }} </span>
+            </div>
+            <div class="formInGroup">
               <input
                 type="text"
-                v-model="item.val"
-                class="CardNumberform"
-                maxlength="4"
-                @keydown="setBlur($event, index)"
+                maxlength="8"
+                v-model="coupon"
+                class="couponInput"
               />
+              <div class="creditText02">優惠代碼12345678</div>
             </div>
           </div>
-        </form>
-        <!--  請輸入信用卡期限 -->
-        <form>
-          <div :class="{ wrongText: wrongText[1].state }">
-            <div class="creditText">請輸入信用卡期限</div>
-            {{ wrongText[1].message }}
-            <div v-for="(item, index) in inputCardDate" :key="index">
-              <input
-                type="text"
-                v-model="item.val"
-                class="inputDate"
-                maxlength="2"
-                @keydown="setBlur2($event, index)"
-              />
+        </div>
+        <!-- 同意條款 -->
+        <div class="agree">
+          <div :class="{ wrongText: wrongText[4].state }">
+            <input type="checkbox" v-model="agree" />
+            <div class="creditText02">
+              我同意接受雨滴購物網服務條和隱私權政策
             </div>
+            <span class="creditText03">{{ wrongText[4].message }} </span>
           </div>
-        </form>
-        <!--  請輸入信用卡背後安全碼 -->
-        <form>
-          <div :class="{ wrongText: wrongText[2].state }">
-            <div class="creditText ">請輸入信用卡背後安全碼</div>
-            {{ wrongText[2].message }}
-            <div v-for="(item, index) in inputCardSaveNum" :key="index">
-              <input
-                type="text"
-                v-model="item.val"
-                class="inputSaveNum"
-                maxlength="3"
-              />
-            </div>
-          </div>
-        </form>
-      </div>
-      <!--  超商-->
-
-      <div class="shopMethod" v-if="!changeMethod">
-        <!-- 請選擇超商 -->
-        <ul class="chooseShop">
-          <li class="checkboxBig">
-            <input
-              type="radio"
-              name="shop"
-              id="shop1"
-              checked
-              v-model="shopMethod1"
-              value="7-11 ibon付款"
-            />
-            <div class="smcircle">
-              <label for="shop1">7-11 ibon付款</label>
-            </div>
-          </li>
-          <li class="checkboxBig">
-            <input
-              type="radio"
-              name="shop"
-              id="shop2"
-              v-model="shopMethod1"
-              value="全家FamiPort付款"
-            />
-            <div class="smcircle">
-              <label for="shop2">全家FamiPort付款</label>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <!-- 優惠代碼 -->
-      <div class="couponGroup">
-        <div :class="{ wrongText: wrongText[3].state }">
-          <span class="creditText">請輸入優惠碼</span>{{ wrongText[3].message }}
-          <input type="text" maxlength="8" v-model="coupon" />
-          <span>優惠代碼12345678</span>
         </div>
       </div>
-      <!-- 同意條款 -->
-      <div class="agree">
-        <div :class="{ wrongText: wrongText[4].state }">
-          <input
-            type="checkbox"
-            v-model="agree"
-          />我同意接受雨滴購物網服務條和隱私權政策{{ wrongText[4].message }}
-        </div>
-      </div>
-
       <!-- 付款方式Footer -->
       <div class="payFooter">
-        <div class="cancel" @click="$router.back()">回訂單頁面</div>
+        <div class="nextButtom" @click="$router.back()">回訂單頁面</div>
 
-        <div class="finish" @click="changePage('confirmGroup')">下一頁</div>
+        <div class="nextButtom" @click="changePage('confirmGroup')">
+          下一頁
+        </div>
       </div>
     </div>
     <!-- 確認訂購資訊頁面-->
@@ -187,11 +223,11 @@
       </div>
       <!-- 確認訂購資訊Footer -->
       <div class="payFooter">
-        <div class="cancel" @click="changePage('payMethodsGroup')">
+        <div class="nextButtom" @click="changePage('payMethodsGroup')">
           回支付方式
         </div>
 
-        <div class="finish" @click="changePage('finishPay')">確認付款</div>
+        <div class="nextButtom" @click="changePage('finishPay')">確認付款</div>
       </div>
     </div>
 
@@ -199,8 +235,8 @@
     <div class="finishPayGroup" v-if="page === 'finishPay'">
       您的訂單已成立!
       <!-- 確認支付成功Footer -->
-      <div class="finishPayFooter">
-        <div class="cancel" @click="$router.back()">回訂單頁面</div>
+      <div class="payFooter">
+        <div class="nextButtom" @click="$router.back()">回訂單頁面</div>
       </div>
     </div>
   </div>
@@ -432,6 +468,9 @@ export default {
 }
 </script>
 <style scoped>
+.orderPay {
+  overflow: hidden;
+}
 .payHeader {
   position: relative;
   height: 70px;
@@ -511,6 +550,7 @@ input:focus {
 /*radio */
 .shopMethod ul {
   list-style: none;
+  padding-left: 4px;
 }
 .shopMethod ul li {
   position: relative;
@@ -611,9 +651,18 @@ input[type="radio"]:checked ~ div > label {
 }
 /*選擇支付方式頁面 */
 .payMethodsGroup {
-  margin-top: 5px;
-  padding-left: 38px;
+  width: 70%;
+  margin: 20px auto 0px;
   text-align: left;
+  overflow-y: auto;
+}
+.scrollY {
+  position: absolute;
+
+  bottom: 80px;
+  top: 80px;
+  overflow-y: auto;
+  margin: 0px;
 }
 .methodButtonGroup {
   margin: 5px 0px;
@@ -632,11 +681,111 @@ input[type="radio"]:checked ~ div > label {
 }
 /* 選中的支付方式*/
 .activePayMethod {
-  border: 3px solid#26ca28;
+  border: 3px solid #26ca28;
+}
+/* 次標題*/
+.creditText {
+  display: flex;
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+.creditText::before {
+  align-self: center;
+  margin-right: 5px;
+  content: "";
+  width: 8px;
+  display: inline-block;
+  height: 8px;
+  border-radius: 8px;
+  background-color: #26ca28;
+}
+.creditText > span {
+  flex-wrap: nowrap;
+}
+.creditText02 {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+/*信用卡卡號input */
+.CardNumberform,
+.inputDate,
+.inputSaveNum {
+  display: inline-block;
+  text-align: center;
+  border: 1px solid #aaaaaa;
+  display: inline-block;
+  border-radius: 5px;
+  width: 50px;
+  height: 20px;
+}
+.couponInput {
+  text-align: center;
+  border: 1px solid #aaaaaa;
+  display: inline-block;
+  border-radius: 5px;
+  width: 100px;
+  height: 20px;
+}
+.symbol {
+  position: relative;
+  display: inline-block;
+  line-height: 20px;
+  margin: 0px 3px 0px 0px;
+}
+.symbol:not(:last-of-type) {
+  display: none;
+}
+
+/*form */
+.creditCardMethod > form {
+  margin-bottom: 15px;
+}
+.formInGroup {
+  display: block;
+}
+.formIn {
+  display: inline-block;
 }
 /*錯誤顯示 */
-.wrongText {
+
+.wrongText > div > span {
+  display: inline-block;
+  margin-left: 5px;
   color: crimson;
-  background-color: cornflowerblue;
+  font-size: 8px;
+}
+.creditText03 {
+  display: inline-block;
+  margin-left: 5px;
+  color: crimson;
+  font-size: 8px;
+}
+/*payFooter */
+.payFooter {
+  position: absolute;
+  left: 0px;
+  height: 80px;
+  width: 100%;
+  bottom: 0px;
+  display: block;
+  background-color: rgb(114, 20, 143);
+  border-radius: 2px;
+}
+.nextButtom {
+  background-color: #aaaaaa;
+  color: rgb(114, 20, 143);
+
+  display: inline-block;
+  margin-right: 5px;
+  width: 90px;
+  height: 30px;
+  border-radius: 2px;
+  text-align: center;
+
+  cursor: pointer;
 }
 </style>
