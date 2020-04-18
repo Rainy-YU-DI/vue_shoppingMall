@@ -180,10 +180,12 @@
       </div>
       <!-- 付款方式Footer -->
       <div class="payFooter">
-        <div class="nextButtom" @click="$router.back()">回訂單頁面</div>
+        <div class="nextButtom" @click="$router.back()">
+          <span>回訂單頁面</span>
+        </div>
 
         <div class="nextButtom" @click="changePage('confirmGroup')">
-          下一頁
+          <span>下一頁</span>
         </div>
       </div>
     </div>
@@ -193,7 +195,7 @@
       <div class="group">
         <div class="creditText">選購商品:</div>
         <div
-          class="confirmContext"
+          class="confirmContext03"
           v-for="(food, index) in cartFoods"
           :key="index"
         >
@@ -201,7 +203,7 @@
             >{{ food.name }}X{{ food.count }}={{ sigleItemPrice(food) }}</span
           >
         </div>
-        <span>共計:${{ totalPrice }}</span>
+        <span class="confirmContext04">共計:${{ totalPrice }}</span>
       </div>
       <div class="group">
         <div class="creditText">購買者資訊:</div>
@@ -224,10 +226,12 @@
       <!-- 確認訂購資訊Footer -->
       <div class="payFooter">
         <div class="nextButtom" @click="changePage('payMethodsGroup')">
-          回支付方式
+          <span>回支付方式</span>
         </div>
 
-        <div class="nextButtom" @click="changePage('finishPay')">確認付款</div>
+        <div class="nextButtom" @click="changePage('finishPay')">
+          <span>確認付款</span>
+        </div>
       </div>
     </div>
 
@@ -236,7 +240,9 @@
       您的訂單已成立!
       <!-- 確認支付成功Footer -->
       <div class="payFooter">
-        <div class="nextButtom" @click="$router.back()">回訂單頁面</div>
+        <div class="nextButtom" @click="$router.back()">
+          <span>回訂單頁面</span>
+        </div>
       </div>
     </div>
   </div>
@@ -548,6 +554,9 @@ input:focus {
   border-color: #26ca28;
 }
 /*radio */
+.shopMethod {
+  margin: 20px 0px;
+}
 .shopMethod ul {
   list-style: none;
   padding-left: 4px;
@@ -600,6 +609,7 @@ input[type="radio"]:checked ~ div > label {
 
 /*checkbox */
 .agree {
+  margin-top: 20px;
   vertical-align: middle;
 }
 .agree input {
@@ -634,6 +644,7 @@ input[type="radio"]:checked ~ div > label {
 }
 /*標題 */
 .formTitle {
+  margin-top: 20px;
   font-weight: 800;
   font-size: 20px;
   vertical-align: middle;
@@ -650,9 +661,10 @@ input[type="radio"]:checked ~ div > label {
   border-radius: 30px;
 }
 /*選擇支付方式頁面 */
-.payMethodsGroup {
+.payMethodsGroup,
+.confirmGroup {
   width: 70%;
-  margin: 20px auto 0px;
+  margin: 0px auto 0px;
   text-align: left;
   overflow-y: auto;
 }
@@ -703,11 +715,26 @@ input[type="radio"]:checked ~ div > label {
 .creditText > span {
   flex-wrap: nowrap;
 }
-.creditText02 {
+.creditText02,
+.confirmContext {
   display: inline-block;
   font-weight: 800;
   font-size: 15px;
   margin-bottom: 5px;
+}
+.confirmContext03 {
+  display: block;
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+.confirmContext04 {
+  display: block;
+  text-align: right;
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 5px;
+  color: tomato;
 }
 
 /*信用卡卡號input */
@@ -741,6 +768,9 @@ input[type="radio"]:checked ~ div > label {
 }
 
 /*form */
+.creditCardMethod {
+  margin-top: 20px;
+}
 .creditCardMethod > form {
   margin-bottom: 15px;
 }
@@ -774,18 +804,22 @@ input[type="radio"]:checked ~ div > label {
   display: block;
   background-color: rgb(114, 20, 143);
   border-radius: 2px;
-}
-.nextButtom {
-  background-color: #aaaaaa;
-  color: rgb(114, 20, 143);
+  text-align: center;
 
+  line-height: 80px;
+}
+
+.nextButtom {
+  position: relative;
+  background-color: rgb(230, 200, 250);
+  color: rgb(114, 20, 143);
+  font-weight: 600;
   display: inline-block;
   margin-right: 5px;
   width: 90px;
   height: 30px;
-  border-radius: 2px;
-  text-align: center;
-
+  border-radius: 4px;
+  line-height: 30px;
   cursor: pointer;
 }
 </style>
