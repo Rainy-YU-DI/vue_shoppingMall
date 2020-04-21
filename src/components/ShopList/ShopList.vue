@@ -9,7 +9,8 @@
       >
         <a>
           <div class="shopPic">
-            <img class="shop_img" :src="shopsBaseImg + shop.image_path" />
+            <img class="shop_img" :src="shopImg[index]" />
+            <!--  -->
           </div>
           <div class="textGroup">
             <div class="textHeader">
@@ -52,12 +53,10 @@ import { mapState } from 'vuex'
 import Star from '../Star/Star'
 export default {
   data () {
-    return {
-      shopsBaseImg: 'http://cangdu.org:8001/img/'
-    }
+    return {}
   },
   computed: {
-    ...mapState(['shops'])
+    ...mapState(['shops', 'shopImg'])
   },
   components: {
     Star

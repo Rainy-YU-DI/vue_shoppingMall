@@ -3,6 +3,8 @@
 
 import ajax from "./ajax";
 const BASE = "/api";
+const BASE01 = "/ipa";
+
 //[1、根据经纬度获取位置详情]
 export const reqAddress = geohash => ajax(`${BASE}/position/${geohash}`);
 //[2、获取食品分类列表]
@@ -10,6 +12,8 @@ export const reqFoodCategorys = () => ajax(BASE + "/index_category");
 //[3、根据经纬度获取商铺列表]
 export const reqShops = (longitude, latitude) =>
   ajax(BASE + "/shops", { longitude, latitude });
+//[3-1:商家圖片]http://207.148.96.113:3000/resource/
+export const reqShopImg = () => ajax(BASE01 + "/resource/1.jpg");
 //[4、根据经纬度和关键字搜索商铺列表]
 export const reqSearchShops = (geohash, keyword) =>
   ajax(BASE + "/search_shops", { geohash, keyword });

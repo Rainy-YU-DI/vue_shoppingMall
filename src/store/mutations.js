@@ -9,6 +9,7 @@ import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_RATINGS,
+  RECEIVE_SHOPIMG,
   RECEIVE_SHOPS,
   RECIEVE_GOODS,
   RECIEVE_SEARCH_SHOPS,
@@ -24,6 +25,9 @@ export default {
   },
   [RECEIVE_SHOPS](state, { shops }) {
     state.shops = shops;
+  },
+  [RECEIVE_SHOPIMG](state, { shopImg }) {
+    state.shopImg = shopImg;
   },
   [RECIEVE_USER_INFO](state, { userInfo }) {
     state.userInfo = userInfo;

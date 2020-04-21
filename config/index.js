@@ -16,6 +16,13 @@ module.exports = {
         pathRewrite: {
           "^/api": ""
         }
+      },
+      "/ipa": {
+        target: "http://207.148.96.113:3000",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/ipa": ""
+        }
       }
     },
 

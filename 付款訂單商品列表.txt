@@ -1,0 +1,11 @@
+11. POST上傳付款訂單商品列表
+    GET獲取已上傳付款訂單資料
+{name:'',count:0,price:0}
+请求方式：
+	GET/POST
+
+
+|参数		|是否必选 |类型     |说明
+|name    |Y       |string   |商品名稱
+|count   |Y       |number  |商品數量
+|price   |Y       |number  |商品單價格
