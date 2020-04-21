@@ -13,7 +13,7 @@ export const reqFoodCategorys = () => ajax(BASE + "/index_category");
 export const reqShops = (longitude, latitude) =>
   ajax(BASE + "/shops", { longitude, latitude });
 //[3-1:商家圖片]http://207.148.96.113:3000/resource/
-export const reqShopImg = () => ajax(BASE01 + "/resource/1.jpg");
+/* export const reqShopImg = index => ajax(BASE01 + "/resource/" + index + ".jpg"); */
 //[4、根据经纬度和关键字搜索商铺列表]
 export const reqSearchShops = (geohash, keyword) =>
   ajax(BASE + "/search_shops", { geohash, keyword });

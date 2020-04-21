@@ -5,7 +5,7 @@ export default {
   address: {},
   categorys: [],
   shops: [], //商家數組
-  shopImg: [], //商家圖片
+
   userInfo: {}, //用戶信息
   goods: [], //商品列表
   ratings: [], //商家評價列表

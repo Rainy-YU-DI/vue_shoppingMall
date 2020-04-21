@@ -1,11 +1,67 @@
 11. POST上傳付款訂單商品列表
     GET獲取已上傳付款訂單資料
-{name:'',count:0,price:0}
+
+
+
+request:
+{
+	username : "yudibaby",
+	total : "99900",
+	productList : [{name:'',count:0,price:0},{name:'',count:0,price:0},{name:'',count:0,price:0}]
+}
+
+respone:
+
+{
+	code : "0",
+	orderNo : "20200421xxxxxx"
+}
+
+request:
+
+
+queryString vs http請求的body
+get vs post 在http請求格式上的不同
+
+request type 0 is ?
+get/post
+http://localhost:8000/getAllOrderList?username=yudibaby
+
+
+
+reqeust type 1 is ?
+get/post
+http://localhost:8000/getAllOrderList/yudibaby
+
+reqeust type 2 is ?
+
+http://localhost:8000/getAllOrderList
+{
+	usernme:"yudibaby",
+	
+}
+
+respone:
+
+{
+	code : "0",
+	orderList : [
+		{orderNo : "20200421xxxxxx",total : "99900",
+	productList : [{name:'',count:0,price:0},{name:'',count:0,price:0},{name:'',count:0,price:0}]},
+		{orderNo : "20200421xxxxxx",total : "99900",
+	productList : [{name:'',count:0,price:0},{name:'',count:0,price:0},{name:'',count:0,price:0}]}
+
+	]
+	
+}
+
+
 请求方式：
 	GET/POST
 
 
 |参数		|是否必选 |类型     |说明
+username 
 |name    |Y       |string   |商品名稱
 |count   |Y       |number  |商品數量
 |price   |Y       |number  |商品單價格

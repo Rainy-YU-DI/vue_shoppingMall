@@ -5,7 +5,6 @@ import {
   reqLogout,
   reqSearchShops,
   reqShopGoods,
-  reqShopImg,
   reqShopInfo,
   reqShopRatings,
   reqShops,
@@ -20,7 +19,6 @@ import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_RATINGS,
-  RECEIVE_SHOPIMG,
   RECEIVE_SHOPS,
   RECIEVE_GOODS,
   RECIEVE_SEARCH_SHOPS,
@@ -62,16 +60,16 @@ export default {
       commit(RECEIVE_SHOPS, { shops });
     }
   },
-  //異步獲取商家圖片
-  async getShopImg() {
-    const result = await reqShopImg();
-    console.log(result);
+  /* //異步獲取商家圖片
+  async getShopImg({ commit }, index) {
+    const result = await reqShopImg(index);
+
     //提交一個mutation
-    if (result.code === 0) {
-      const shopImg = result.data;
-      commit(RECEIVE_SHOPIMG, { shopImg });
-    }
-  },
+
+    const shopImg = result;
+
+    commit(RECEIVE_SHOPIMG, { shopImg });
+  }, */
   //同步記錄用戶信息
   recordUser({ commit }, userInfo) {
     commit(RECIEVE_USER_INFO, { userInfo });

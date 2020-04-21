@@ -81,7 +81,8 @@ export default {
   mounted () {
     this.$store.dispatch('getCategorys')
     this.$store.dispatch('getShops')
-    this.$store.dispatch('getShopImg')
+
+    /*  this.$store.dispatch('getShopImg') */
   },
   components: {
     HeaderTop,
