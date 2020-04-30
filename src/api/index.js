@@ -43,3 +43,24 @@ export const reqShopGoods = () => ajax("/goods");
 export const reqShopRatings = () => ajax("/ratings");
 //info獲取商家信息
 export const reqShopInfo = () => ajax("/info");
+
+//POST:alredeyOrder用戶已買訂單上傳
+export const reqAlredeyOrder = ({
+  name,
+  phone,
+  _id,
+  orderNo,
+  totalCost,
+  productList
+}) =>
+  ajax(
+    "/alredeyOrder",
+    { name, phone, _id, orderNo, totalCost, productList },
+    "POST"
+  );
+
+//GET:根據用戶name獲取他的訂單信息
+export const reqUserInfoAlredeyOrder = name =>
+  ajax("/userInfoAlredeyOrder", {
+    name
+  });

@@ -10,6 +10,7 @@ import {
   RECEIVE_CATEGORYS,
   RECEIVE_RATINGS,
   RECEIVE_SHOPS,
+  RECIEVE_ALREADY_ORDER,
   RECIEVE_GOODS,
   RECIEVE_SEARCH_SHOPS,
   RECIEVE_USER_INFO,
@@ -75,5 +76,9 @@ export default {
 
   [DELETE_THIS_ITEM](state, { index }) {
     state.cartFoods.splice(index, 1);
+  },
+  //完成訂單
+  [RECIEVE_ALREADY_ORDER](state, { alredeyOrder }) {
+    state.alredeyOrder = alredeyOrder;
   }
 };

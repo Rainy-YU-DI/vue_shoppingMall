@@ -20,6 +20,7 @@ import {
   RECEIVE_CATEGORYS,
   RECEIVE_RATINGS,
   RECEIVE_SHOPS,
+  RECIEVE_ALREADY_ORDER,
   RECIEVE_GOODS,
   RECIEVE_SEARCH_SHOPS,
   RECIEVE_USER_INFO,
@@ -145,6 +146,10 @@ export default {
   //同步刪除該項訂單
   deleteThisItem({ commit }, index) {
     commit(DELETE_THIS_ITEM, { index });
+  },
+  //reqAlredeyOrder
+  //同步記錄用戶訂單信息
+  recordAlredeyOrder({ commit }, alredeyOrder) {
+    commit(RECIEVE_ALREADY_ORDER, { alredeyOrder });
   }
-  //
 };

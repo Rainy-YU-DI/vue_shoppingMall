@@ -11,6 +11,6 @@ export default {
   ratings: [], //商家評價列表
   info: {}, //商家信息
   cartFoods: [], //購物車中食物的列表
-  alreadypaycartFoods: [], //已付款的食物的列表
+  alredeyOrder: [], //已付款的訂單列表
   searchShops: [] //搜尋出的商家數組
 };

@@ -19,3 +19,5 @@ export const CLEAR_CART = "clear_cart"; //清除購物車
 export const RECIEVE_SEARCH_SHOPS = "receive_search_shops"; //接收搜尋的商品數組
 
 export const DELETE_THIS_ITEM = "delete_this_item"; //接收搜尋的商品數組
+
+export const RECIEVE_ALREADY_ORDER = "recieve_alredey_order"; //接收用戶已完成訂單數組

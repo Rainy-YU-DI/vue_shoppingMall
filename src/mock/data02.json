@@ -1,0 +1,32 @@
+{
+  "alredeyOrder": [
+    {
+      "name": "yudi",
+      "phone": "0912333666",
+      "_id": "100001",
+      "orderNo": "20200421",
+      "totalCost": 300,
+      "productList": [{ "name": "蘋果", "count": 3, "price": 100 }]
+    },
+    {
+      "name": "yudi",
+      "phone": "0912333666",
+      "_id": "100001",
+      "orderNo": "33226584",
+      "totalCost": 100,
+      "productList": [{ "name": "水蜜桃", "count": 2, "price": 50 }]
+    }
+  ],
+  "userInfoAlredeyOrder": {
+    "yudi": [
+      {
+        "name": "蘋果",
+        "count": 3,
+        "price": 100,
+        "totalCost": 300,
+        "orderNo": "20200421"
+      },
+      { "name": "水蜜桃", "count": 2, "price": 50, "orderNo": "33226584" }
+    ]
+  }
+}

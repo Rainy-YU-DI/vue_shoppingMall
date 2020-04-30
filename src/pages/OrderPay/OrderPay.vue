@@ -33,16 +33,12 @@
             class="methodButton"
             :class="{ activePayMethod: changeMethod }"
             @click="payMethod(true)"
-          >
-            信用卡付款
-          </div>
+          >信用卡付款</div>
           <div
             class="methodButton"
             :class="{ activePayMethod: !changeMethod }"
             @click="payMethod(false)"
-          >
-            超商付款
-          </div>
+          >超商付款</div>
         </div>
         <!--  信用卡 -->
         <div class="creditCardMethod" v-if="changeMethod">
@@ -50,14 +46,11 @@
           <form>
             <div :class="{ wrongText: wrongText[0].state }">
               <div class="creditText">
-                請輸入信用卡卡號<span> {{ wrongText[0].message }}</span>
+                請輸入信用卡卡號
+                <span>{{ wrongText[0].message }}</span>
               </div>
               <div class="formInGroup">
-                <div
-                  class="formIn"
-                  v-for="(item, index) in inputCardNumber"
-                  :key="index"
-                >
+                <div class="formIn" v-for="(item, index) in inputCardNumber" :key="index">
                   <input
                     type="text"
                     v-model="item.val"
@@ -74,14 +67,11 @@
           <form>
             <div :class="{ wrongText: wrongText[1].state }">
               <div class="creditText">
-                請輸入信用卡期限<span> {{ wrongText[1].message }} </span>
+                請輸入信用卡期限
+                <span>{{ wrongText[1].message }}</span>
               </div>
               <div class="formInGroup">
-                <div
-                  class="formIn"
-                  v-for="(item, index) in inputCardDate"
-                  :key="index"
-                >
+                <div class="formIn" v-for="(item, index) in inputCardDate" :key="index">
                   <input
                     type="text"
                     v-model="item.val"
@@ -97,21 +87,13 @@
           <!--  請輸入信用卡背後安全碼 -->
           <form>
             <div :class="{ wrongText: wrongText[2].state }">
-              <div class="creditText ">
-                請輸入信用卡背後安全碼 <span> {{ wrongText[2].message }} </span>
+              <div class="creditText">
+                請輸入信用卡背後安全碼
+                <span>{{ wrongText[2].message }}</span>
               </div>
               <div class="formInGroup">
-                <div
-                  class="formIn"
-                  v-for="(item, index) in inputCardSaveNum"
-                  :key="index"
-                >
-                  <input
-                    type="text"
-                    v-model="item.val"
-                    class="inputSaveNum"
-                    maxlength="3"
-                  />
+                <div class="formIn" v-for="(item, index) in inputCardSaveNum" :key="index">
+                  <input type="text" v-model="item.val" class="inputSaveNum" maxlength="3" />
                 </div>
               </div>
             </div>
@@ -136,13 +118,7 @@
               </div>
             </li>
             <li class="checkboxBig">
-              <input
-                type="radio"
-                name="shop"
-                id="shop2"
-                v-model="shopMethod1"
-                value="全家FamiPort付款"
-              />
+              <input type="radio" name="shop" id="shop2" v-model="shopMethod1" value="全家FamiPort付款" />
               <div class="smcircle">
                 <label for="shop2">全家FamiPort付款</label>
               </div>
@@ -154,15 +130,11 @@
         <div class="couponGroup">
           <div :class="{ wrongText: wrongText[3].state }">
             <div class="creditText">
-              請輸入優惠碼<span>{{ wrongText[3].message }} </span>
+              請輸入優惠碼
+              <span>{{ wrongText[3].message }}</span>
             </div>
             <div class="formInGroup">
-              <input
-                type="text"
-                maxlength="8"
-                v-model="coupon"
-                class="couponInput"
-              />
+              <input type="text" maxlength="8" v-model="coupon" class="couponInput" />
               <div class="creditText02">優惠代碼12345678</div>
             </div>
           </div>
@@ -171,10 +143,8 @@
         <div class="agree">
           <div :class="{ wrongText: wrongText[4].state }">
             <input type="checkbox" v-model="agree" />
-            <div class="creditText02">
-              我同意接受雨滴購物網服務條和隱私權政策
-            </div>
-            <span class="creditText03">{{ wrongText[4].message }} </span>
+            <div class="creditText02">我同意接受雨滴購物網服務條和隱私權政策</div>
+            <span class="creditText03">{{ wrongText[4].message }}</span>
           </div>
         </div>
       </div>
@@ -194,34 +164,22 @@
       <div class="formTitle">確認付款資訊</div>
       <div class="group">
         <div class="creditText">選購商品:</div>
-        <div
-          class="confirmContext03"
-          v-for="(food, index) in cartFoods"
-          :key="index"
-        >
-          <span
-            >{{ food.name }}X{{ food.count }}={{ sigleItemPrice(food) }}</span
-          >
+        <div class="confirmContext03" v-for="(food, index) in cartFoods" :key="index">
+          <span>{{ food.name }}X{{ food.count }}={{ sigleItemPrice(food) }}</span>
         </div>
         <span class="confirmContext04">共計:${{ totalPrice }}</span>
       </div>
       <div class="group">
         <div class="creditText">購買者資訊:</div>
-        <div class="confirmContext">
-          {{ userInfo.name ? `會員:${userInfo.name} 君` : "非會員" }}
-        </div>
+        <div class="confirmContext">{{ userInfo.name ? `會員:${userInfo.name} 君` : "非會員" }}</div>
       </div>
       <div class="group">
         <div class="creditText">付款方式:</div>
-        <div class="confirmContext">
-          {{ changeMethod ? "信用卡支付" : "超商支付" }}
-        </div>
+        <div class="confirmContext">{{ changeMethod ? "信用卡支付" : "超商支付" }}</div>
       </div>
       <div class="group">
         <div class="creditText">優惠代碼:</div>
-        <div class="confirmContext">
-          {{ coupon ? coupon : "未使用任何優惠卷" }}
-        </div>
+        <div class="confirmContext">{{ coupon ? coupon : "未使用任何優惠卷" }}</div>
       </div>
       <!-- 確認訂購資訊Footer -->
       <div class="payFooter">
@@ -238,6 +196,7 @@
     <!-- 支付成功頁面-->
     <div class="finishPayGroup" v-if="page === 'finishPay'">
       您的訂單已成立!
+      <alreadyPayList></alreadyPayList>
       <!-- 確認支付成功Footer -->
       <div class="payFooter">
         <div class="nextButtom" @click="$router.back()">
@@ -248,6 +207,7 @@
   </div>
 </template>
 <script>
+import alreadyPayList from '../../components/alreadyPayList/alreadyPayList'
 import { mapState, mapGetters } from 'vuex'
 export default {
   data () {
@@ -268,6 +228,9 @@ export default {
         { state: false, message: '' }
       ]
     }
+  },
+  components: {
+    alreadyPayList
   },
   computed: {
     ...mapState(['userInfo', 'cartFoods']),
