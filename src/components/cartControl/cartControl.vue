@@ -2,17 +2,24 @@
   <div class="GreeButtom">
     <transition name="move">
       <span
-        class="material-icons"
         v-if="food.count"
+        class="material-icons"
         v-on:click.stop.prevent="updateFoodCount(false)"
       >remove_circle_outline</span>
     </transition>
-    <p v-if="food.count">{{ food.count }}</p>
-    <span class="material-icons" v-on:click.stop.prevent="updateFoodCount(true)">add_circle</span>
+    <p v-if="food.count">{{food.count}}</p>
+    <span class="material-icons" v-on:click.stop.prevent=" updateFoodCount(true)">add_circle</span>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+import { MessageBox } from 'mint-ui'
 export default {
+  data () {
+    return {
+      userInfo: this.$store.state.userInfo.name
+    }
+  },
   props: {
     food: Object
   },
@@ -20,10 +27,34 @@ export default {
     updateFoodCount (isAdd, event) {
       if (event) {
         event.stopImmediatePropagation()
+      } else if (this.userInfo) {
+        this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
+      } else {
+        MessageBox.alert('需先登入會員', '提示')
+      }
+      /*  if (event) {
+        event.stopImmediatePropagation()
       } else {
         this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
-      }
+      } */
+    },
+
+    indexCount (food) {
+      console.log('2')
+      var a = this.$store.state.cartFoods.filter(function (e) {
+        return e.name === food.name
+      })
+      console.log(a)
+      console.log(a[0].count)
+
+      return a[0].count
     }
+  },
+  components: {
+    ...mapState(['userInfo', 'cartFoods'])
+  },
+  mounted () {
+    console.log(this.count)
   }
 }
 </script>

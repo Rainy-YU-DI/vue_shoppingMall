@@ -1,25 +1,34 @@
 POST:
 1)index.js檔案=>
 設一個reqAlredeyOrder函數:用ajax連接Mock接口,並"POST"資料上去
-export const reqAlredeyOrder = ({name,phone,id,orderNo,totalCost,productList}) =>
-  ajax("/alredeyOrder", {name,phone,_id,orderNo,totalCost,productList},"POST");
-
+export const reqAlredeyOrder = ({ userId, productList }) =>
+  ajax(
+    BASE01 + "/api/order/save",
+    {
+      orderDetialRequestList: productList,
+      username: userId
+    },
+    "POST"
+  );
 
 2)頁面.vue檔案上=>異步POST資料
-async showAlredeyOrder(){
-
-let result;
-
-
-
-// 發ajax請求:已訂定單
-result=await reqAlredeyOrder({name,phone,id,orderNo,totalCost,productList})
-
-if (result.code === 0) {
-        const alredeyOrder= result.data
+async showAlredeyOrder () {
+      let result
+      const { userId, productList } = this
+      console.log(productList)
+      // 發ajax請求:已訂定單
+      result = await reqAlredeyOrder({
+        userId,
+        productList
+      })
+      // 將返回的訂單編號存起來
+      if (result.code === '00') {
+        const alredeyOrder = result.data
         // 將alredeyOrder保存到state
         this.$store.dispatch('recordAlredeyOrder', alredeyOrder)
-}
+      }
+    }
+
 3-1）在actions.js定義reqAlredeyOrder:同步記錄用戶訂單信息
 //reqAlredeyOrder
   //同步記錄用戶訂單信息
@@ -29,11 +38,11 @@ if (result.code === 0) {
 3-2)在mutation-type.js檔案=>
 //mutation的常量
 
-export const RECIEVE_ALREADY_ORDER = "recieve_alredey_order"; //接收用戶已完成訂單數組
+export const RECIEVE_ALREADY_ORDER = "recieve_alredey_order"; //接收用戶該訂單返回編號
 
 3-3)在mutation.js檔案
-//完成訂單
-  [RECIEVE_ALREADY_ORDER](state, { alredeyOrder }) {
+//完成儲存訂單編號  
+[RECIEVE_ALREADY_ORDER](state, { alredeyOrder }) {
     state.alredeyOrder = alredeyOrder;
   }
 
@@ -45,38 +54,46 @@ export const RECIEVE_ALREADY_ORDER = "recieve_alredey_order"; //接收用戶已�
 
 GET:
 1)index.js檔案=>
-根據用戶name獲取他的訂單信息
-export const reqUserInfoAlredeyOrder = name=>
-  ajax("/userInfoAlredeyOrder", {
-    name
+//GET:根據username(用戶唯一_id)查詢訂單(queryString)
+export const reqUsernameOrderText = username =>
+  ajax(BASE01 + "/api/order/username", {
+    username
   });
 
-2)actions.js檔案=>//異步獲取用戶訂單訊息
-async getUserInfoAlredeyOrder({commit},state){
-const name=state.userInfo.name
-const result=await reqUserInfoAlredeyOrder (name);
-if(result.code===0){
-const alredeyOrder= result.data;
-      commit(RECIEVE_ORDER, { alredeyOrder});
-}
-}
+2)actions.js檔案=>
+//異步獲取用戶名歷史訂單
+  async getUserInfoAlredeyOrder({ commit }, aaa) {
+    const userId = aaa;
+    const result = await reqUsernameOrderText(userId);
+    if (result.code === "00") {
+      const userAlredeyOrder = result.data;
+      commit(RECIEVE_USER_ORDER, { userAlredeyOrder });
+    }
+  }
 
 3)mutation-type.js檔案=>
 //mutation的常量
-//接收用戶訂單
-export const RECIEVE_ORDER="receive_order";
+//獲取用戶歷史訂單
+export const RECIEVE_USER_ORDER="receive_user_order";
 
 4)mutations.js檔案=>
-[RECIEVE_ORDER](state,{alredeyOrder}){
+[RECIEVE_USER_ORDER](state,{userAlredeyOrder}){
 
-state.alredeyOrder=alredeyOrder;
+state.userAlredeyOrder=userAlredeyOrder;
 }
+
+5) 頁面.vue檔案上=>調用異步
+mounted: function () {
+    if (this.$store.state.userInfo._id) {
+      let userId = this.$store.state.userInfo._id
+      this.getUserInfoAlredeyOrder(userId)
+    }
+  }
 
 
 
 //按確定付款時:
-１）把cartFoods內的資訊給reqAlredeyOrder
-２）清空cartFoods
+1）清空cartFoods
 
 
 

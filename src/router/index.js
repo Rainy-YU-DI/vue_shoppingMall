@@ -4,6 +4,7 @@ import Shop from "@/pages/Shop/Shop.vue";
 import ShopGoods from "@/pages/Shop/ShopGoods/ShopGoods.vue";
 import ShopInfo from "@/pages/Shop/ShopInfo/ShopInfo.vue";
 import ShopRatings from "@/pages/Shop/ShopRatings/ShopRatings.vue";
+import UserOrderText from "@/pages/UserOrderText/UserOrderText.vue";
 import Vue from "vue";
 import Router from "vue-router";
 
@@ -52,6 +53,14 @@ export default new Router({
     {
       path: "/login",
       component: Login,
+      meta: {
+        showFooter: false
+      }
+    },
+
+    {
+      path: "/UserOrderText",
+      component: UserOrderText,
       meta: {
         showFooter: false
       }

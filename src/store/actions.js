@@ -8,7 +8,8 @@ import {
   reqShopInfo,
   reqShopRatings,
   reqShops,
-  reqUserInfo
+  reqUserInfo,
+  reqUsernameOrderText
 } from "../api";
 import {
   CLEAR_CART,
@@ -24,6 +25,7 @@ import {
   RECIEVE_GOODS,
   RECIEVE_SEARCH_SHOPS,
   RECIEVE_USER_INFO,
+  RECIEVE_USER_ORDER,
   RESET_USER_INFO
 } from "./mutation-types";
 
@@ -147,9 +149,20 @@ export default {
   deleteThisItem({ commit }, index) {
     commit(DELETE_THIS_ITEM, { index });
   },
+
   //reqAlredeyOrder
   //同步記錄用戶訂單信息
   recordAlredeyOrder({ commit }, alredeyOrder) {
     commit(RECIEVE_ALREADY_ORDER, { alredeyOrder });
+  },
+
+  //異步獲取用戶名歷史訂單
+  async getUserInfoAlredeyOrder({ commit }, aaa) {
+    const userId = aaa;
+    const result = await reqUsernameOrderText(userId);
+    if (result.code === "00") {
+      const userAlredeyOrder = result.data;
+      commit(RECIEVE_USER_ORDER, { userAlredeyOrder });
+    }
   }
 };

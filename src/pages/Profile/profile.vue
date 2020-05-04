@@ -10,16 +10,16 @@
         </div>
         <div class="user-info">
           <div class="userGroup">
-            <p class="user-info-top">
-              {{ userInfo.name || "登錄/注冊" }}
-            </p>
+            <p class="user-info-top">{{ userInfo.name || "登錄/注冊" }}</p>
             <p class="user-icon">
               <span>
                 <i class="iconfont icon-huiyuan"></i>
               </span>
-              <span class="phone-number">{{
+              <span class="phone-number">
+                {{
                 userInfo.phone || "暫無綁定手機號碼"
-              }}</span>
+                }}
+              </span>
             </p>
           </div>
         </div>
@@ -37,10 +37,12 @@
           <i class="iconfont icon-zhanwaicepingguanggaoshuju"></i>
         </span>
         <div class="my_order_div">
-          <span>我的訂單</span>
-          <span class="my_order_icon">
-            <i class="iconfont icon-chevron-right"></i>
-          </span>
+          <span>我的歷史訂單</span>
+          <router-link :to="!userInfo.name? '' : '/UserOrderText'">
+            <span class="my_order_icon">
+              <i class="iconfont icon-chevron-right"></i>
+            </span>
+          </router-link>
         </div>
       </a>
       <!--若有登入顯示會員資料-->
@@ -63,9 +65,7 @@
       </section>
       <!--退出登入按鍵-->
       <section v-if="userInfo.name">
-        <mt-button type="danger" style="width:100%" @click="logout"
-          >退出登入</mt-button
-        >
+        <mt-button type="danger" style="width:100%" @click="logout">退出登入</mt-button>
       </section>
     </section>
   </div>
@@ -87,6 +87,7 @@ export default {
         action => {
           // 請求退出
           this.$store.dispatch('logout')
+          this.$store.dispatch('clearCart')
           Toast('登出完成')
         },
         action => {

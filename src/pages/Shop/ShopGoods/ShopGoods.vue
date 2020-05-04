@@ -11,11 +11,7 @@
             @click="clickMenuLeft(index)"
           >
             <div class="itemSpan">
-              <img
-                :src="good.icon"
-                style="width:12px;height:12px"
-                v-if="good.icon"
-              />
+              <img :src="good.icon" style="width:12px;height:12px" v-if="good.icon" />
               <p>{{ good.name }}</p>
             </div>
           </li>
@@ -24,9 +20,7 @@
       <div class="menu_right">
         <ul ref="foodUl">
           <li class="titleBar" v-for="(good, index) in goods" :key="index">
-            <h1>
-              {{ good.name }}
-            </h1>
+            <h1>{{ good.name }}</h1>
             <ul>
               <li
                 class="shopItem"
@@ -70,7 +64,7 @@ export default {
     return {
       scrollY: 0,
       tops: [],
-      food: {} // 需要顯示的food
+      food: {} // 需要顯示的大框框food
     }
   },
   mounted () {

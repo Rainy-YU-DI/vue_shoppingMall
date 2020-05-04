@@ -3,7 +3,7 @@
     <div class="check_up">
       <div class="orderItemCheck" v-for="(food, index) in cartFoods" :key="index">
         <div class="ItemCheckIndex">
-          訂單{{ index + 1 }}
+          訂單筆數{{ index + 1 }}
           <div class="deleteItem" @click="deleteThisItem(index)">刪除</div>
         </div>
         <div class="ItemCheckContext">

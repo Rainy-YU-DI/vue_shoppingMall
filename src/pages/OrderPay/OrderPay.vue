@@ -195,7 +195,8 @@
 
     <!-- 支付成功頁面-->
     <div class="finishPayGroup" v-if="page === 'finishPay'">
-      您的訂單已成立!
+      您的訂單
+      <span class="orderNo">編號{{alredeyOrder.orderNo}}</span>已成立!
       <alreadyPayList></alreadyPayList>
       <!-- 確認支付成功Footer -->
       <div class="payFooter">
@@ -207,6 +208,7 @@
   </div>
 </template>
 <script>
+import { reqAlredeyOrder } from '../../api/index'
 import alreadyPayList from '../../components/alreadyPayList/alreadyPayList'
 import { mapState, mapGetters } from 'vuex'
 export default {
@@ -226,14 +228,28 @@ export default {
         { state: false, message: '' },
         { state: false, message: '' },
         { state: false, message: '' }
-      ]
+      ],
+      // POST訂單資料
+      /*  name: this.$store.state.userInfo.name, */
+      userId: this.$store.state.userInfo._id
+        ? this.$store.state.userInfo._id
+        : '尚未登入用戶',
+      productList: {}
     }
+  },
+  mounted: function () {
+    const aa = []
+    this.$store.state.cartFoods.forEach(function (e) {
+      aa.push({ count: e.count, name: e.name, price: e.price })
+    })
+    console.log(aa)
+    this.productList = aa
   },
   components: {
     alreadyPayList
   },
   computed: {
-    ...mapState(['userInfo', 'cartFoods']),
+    ...mapState(['userInfo', 'cartFoods', 'alredeyOrder']),
     ...mapGetters(['totalCount', 'totalPrice'])
   },
   methods: {
@@ -334,12 +350,35 @@ export default {
           this.page = PAGE
         }
       } else {
+        if (PAGE === 'finishPay') {
+          this.showAlredeyOrder()
+          this.page = PAGE
+          this.$store.dispatch('clearCart')
+        }
         this.page = PAGE
       }
     },
     sigleItemPrice (food) {
       let sum = food.count * food.price
       return sum
+    },
+    // 異步付款訂單POST
+    // 異步POST資料
+    async showAlredeyOrder () {
+      let result
+      const { userId, productList } = this
+      console.log(productList)
+      // 發ajax請求:已訂定單
+      result = await reqAlredeyOrder({
+        userId,
+        productList
+      })
+      // 將返回的訂單編號存起來
+      if (result.code === '00') {
+        const alredeyOrder = result.data
+        // 將alredeyOrder保存到state
+        this.$store.dispatch('recordAlredeyOrder', alredeyOrder)
+      }
     }
   },
   watch: {
@@ -784,5 +823,10 @@ input[type="radio"]:checked ~ div > label {
   border-radius: 4px;
   line-height: 30px;
   cursor: pointer;
+}
+/*訂單編號顏色 */
+.orderNo {
+  color: crimson;
+  font-weight: 600;
 }
 </style>

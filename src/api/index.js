@@ -12,8 +12,7 @@ export const reqFoodCategorys = () => ajax(BASE + "/index_category");
 //[3、根据经纬度获取商铺列表]
 export const reqShops = (longitude, latitude) =>
   ajax(BASE + "/shops", { longitude, latitude });
-//[3-1:商家圖片]http://207.148.96.113:3000/resource/
-/* export const reqShopImg = index => ajax(BASE01 + "/resource/" + index + ".jpg"); */
+
 //[4、根据经纬度和关键字搜索商铺列表]
 export const reqSearchShops = (geohash, keyword) =>
   ajax(BASE + "/search_shops", { geohash, keyword });
@@ -45,22 +44,24 @@ export const reqShopRatings = () => ajax("/ratings");
 export const reqShopInfo = () => ajax("/info");
 
 //POST:alredeyOrder用戶已買訂單上傳
-export const reqAlredeyOrder = ({
-  name,
-  phone,
-  _id,
-  orderNo,
-  totalCost,
-  productList
-}) =>
+export const reqAlredeyOrder = ({ userId, productList }) =>
   ajax(
-    "/alredeyOrder",
-    { name, phone, _id, orderNo, totalCost, productList },
+    BASE01 + "/api/order/save",
+    {
+      orderDetialRequestList: productList,
+      username: userId
+    },
     "POST"
   );
 
-//GET:根據用戶name獲取他的訂單信息
-export const reqUserInfoAlredeyOrder = name =>
-  ajax("/userInfoAlredeyOrder", {
-    name
+//GET:根據orderNo查詢訂單(restful)
+export const reqOrderNumText = orderNo =>
+  ajax(BASE01 + "/api/order/orderNo/" + orderNo, {
+    orderNo
+  });
+
+//GET:根據username(用戶唯一_id)查詢訂單(queryString)
+export const reqUsernameOrderText = username =>
+  ajax(BASE01 + "/api/order/username", {
+    username
   });

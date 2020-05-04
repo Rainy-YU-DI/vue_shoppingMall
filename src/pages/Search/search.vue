@@ -3,21 +3,12 @@
     <HeaderTop title="搜尋"></HeaderTop>
     <!-- @submit.prevent提交事件不再重載頁面-->
     <form class="search_form" @submit.prevent="search">
-      <input
-        type="search"
-        placeholder="請輸入商家名稱"
-        class="search_input"
-        v-model="keyword"
-      />
+      <input type="search" placeholder="請輸入商家名稱" class="search_input" v-model="keyword" />
       <input type="submit" class="search_submit" />
     </form>
     <section class="searchListGrooup" v-if="searchResult">
       <ul class="searchUl">
-        <li
-          class="searchLi"
-          v-for="(searchShop, index) in searchShops"
-          :key="index"
-        >
+        <li class="searchLi" v-for="(searchShop, index) in searchShops" :key="index">
           <img
             style="width:50px;height:50px;background-color:blue"
             :src="imgBaseUrl + searchShop.image_path"
@@ -25,11 +16,11 @@
           <div class="textContent">
             <span>{{ searchShop.name }}</span>
             <span>月售{{ searchShop.float_minimum_order_amount }}單</span>
-            <span
-              >{{ searchShop.float_delivery_fee }}元起送/距離{{
-                searchShop.distance
-              }}</span
-            >
+            <span>
+              {{ searchShop.float_delivery_fee }}元起送/距離{{
+              searchShop.distance
+              }}
+            </span>
           </div>
         </li>
       </ul>
@@ -57,6 +48,7 @@ export default {
       const keyword = this.keyword.trim()
       // 進行搜索
       if (keyword) {
+        console.log(keyword)
         this.$store.dispatch('searchShops', keyword)
       }
     }
@@ -67,9 +59,11 @@ export default {
   watch: {
     searchShops (value) {
       if (!value.length) {
+        console.log('222')
         this.searchResult = false
       } else {
         this.searchResult = true
+        console.log('111')
       }
     }
   }

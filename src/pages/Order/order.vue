@@ -3,7 +3,8 @@
     <HeaderTop title="訂單列表"></HeaderTop>
     <div v-if="!totalCount" class="noOrder">
       <div class="no_OrderImg"></div>
-      <div class="no_OrderImg_text">尚未選取任何商品入購物車!</div>
+      <div v-if="!userInfo.name" class="no_OrderImg_text">需先登入會員</div>
+      <div v-if="userInfo.name" class="no_OrderImg_text">尚未選取任何商品入購物車!</div>
     </div>
     <div v-if="totalCount">
       <OrderList />
