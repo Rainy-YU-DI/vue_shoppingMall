@@ -4,28 +4,17 @@
       <div class="cartLeft" @click="toggleShow">
         <div class="iconCart">
           <div class="outerCircle" :class="{ highlight: totalCount }">
-            <span
-              class="iconfont icon-icon-test"
-              :class="{ highlight: totalCount }"
-            ></span>
+            <span class="iconfont icon-icon-test" :class="{ highlight: totalCount }"></span>
           </div>
-          <div class="redNum" v-if="totalCount">
-            {{ totalCount }}
-          </div>
+          <div class="redNum" v-if="totalCount">{{ totalCount }}</div>
         </div>
         <div class="leftText">
           <p>${{ totalPrice }}</p>
           <p>另需配送費${{ info.deliveryPrice }}元</p>
         </div>
       </div>
-      <router-link
-        :to="payText === '結算' ? '/order' : ''"
-        class="cartRight"
-        :class="payClass"
-      >
-        <div class="pay">
-          {{ payText }}
-        </div>
+      <router-link :to="payText === '結算' ? '/order' : ''" class="cartRight" :class="payClass">
+        <div class="pay">{{ payText }}</div>
       </router-link>
     </div>
     <transition name="listUp">
@@ -36,11 +25,7 @@
         </div>
         <div class="listFood" ref="listFood">
           <ul class="listFoodUl">
-            <li
-              class="listFoodLi"
-              v-for="(food, index) in cartFoods"
-              :key="index"
-            >
+            <li class="listFoodLi" v-for="(food, index) in cartFoods" :key="index">
               <p>{{ food.name }}</p>
               <p>${{ food.price }}</p>
               <CartControl :food="food" />

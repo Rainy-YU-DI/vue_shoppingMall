@@ -40,7 +40,6 @@
                   </p>
                   <p>${{ food.price }}</p>
                 </div>
-
                 <CartControl :food="food" />
               </li>
             </ul>

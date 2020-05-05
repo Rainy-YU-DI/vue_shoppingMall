@@ -2,59 +2,61 @@
   <div class="GreeButtom">
     <transition name="move">
       <span
-        v-if="food.count"
         class="material-icons"
         v-on:click.stop.prevent="updateFoodCount(false)"
       >remove_circle_outline</span>
     </transition>
-    <p v-if="food.count">{{food.count}}</p>
+    <!--此時要顯示的是同品項名的舊food，因為在跳頁後,這邊就變undefined,所以沒有count了 -->
+    <!--更新頁面後第2次增加要
+    去抓舊的相同名稱的food.count出來++
+    在cartFoods.length沒有的時候=>:不要顯示
+      在cartFoods.length有的時候=>:顯示同名稱的food.count(抓取同名稱的food)
+    在購物車沒有同名food時:=>不要顯示-->
+    <p v-if="cartFoods.length">{{indexCount (food)}}</p>
     <span class="material-icons" v-on:click.stop.prevent=" updateFoodCount(true)">add_circle</span>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
-import { MessageBox } from 'mint-ui'
+
+/* import { MessageBox } from 'mint-ui' */
 export default {
   data () {
-    return {
-      userInfo: this.$store.state.userInfo.name
-    }
+    return {}
   },
   props: {
     food: Object
   },
   methods: {
     updateFoodCount (isAdd, event) {
-      if (event) {
+      /*  if (event) {
         event.stopImmediatePropagation()
       } else if (this.userInfo) {
         this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
       } else {
         MessageBox.alert('需先登入會員', '提示')
-      }
-      /*  if (event) {
+      } */
+      if (event) {
         event.stopImmediatePropagation()
       } else {
         this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
-      } */
+        /*    this.indexCount(this.food) */
+      }
     },
-
     indexCount (food) {
-      console.log('2')
       var a = this.$store.state.cartFoods.filter(function (e) {
         return e.name === food.name
       })
-      console.log(a)
+      if (!a.length) {
+        return
+      }
       console.log(a[0].count)
-
+      console.log(this.food.count, this.food)
       return a[0].count
     }
   },
-  components: {
+  computed: {
     ...mapState(['userInfo', 'cartFoods'])
-  },
-  mounted () {
-    console.log(this.count)
   }
 }
 </script>
