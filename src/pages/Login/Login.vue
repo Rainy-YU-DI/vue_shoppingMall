@@ -1,49 +1,27 @@
 <template>
-  <div class="login">
+  <div class="login backGround">
     <div class="loginContainer">
       <div class="loginHeader">
         <h2 class="login_logo">雨滴購物網</h2>
         <div class="login_header_title">
-          <a
-            href="javascript:;"
-            :class="{ on: loginWay }"
-            @click="loginWay = true"
-            >短信登入</a
-          >
-          <a
-            href="javascript:;"
-            :class="{ on: !loginWay }"
-            @click="loginWay = false"
-            >密碼登入</a
-          >
+          <a href="javascript:;" :class="{ on: loginWay }" @click="loginWay = true">短信登入</a>
+          <a href="javascript:;" :class="{ on: !loginWay }" @click="loginWay = false">密碼登入</a>
         </div>
       </div>
       <div class="login_content">
-        <form @submit.prevent="loginCheck">
+        <form>
           <div :class="{ on: loginWay }">
             <section class="login_message">
-              <input
-                type="tel"
-                maxlength="11"
-                placeholder="手機號"
-                v-model="phone"
-              />
+              <input type="tel" maxlength="11" placeholder="手機號" v-model="phone" />
               <button
                 :disabled="!rightPhone"
                 class="get_verification"
                 :class="{ right_phone: rightPhone }"
                 @click.prevent="getCode"
-              >
-                {{ computeTime > 0 ? `已發送(${computeTime}s)` : "獲取驗證" }}
-              </button>
+              >{{ computeTime > 0 ? `已發送(${computeTime}s)` : "獲取驗證" }}</button>
             </section>
             <section class="login_verification">
-              <input
-                type="tel"
-                maxlength="8"
-                placeholder="驗證碼"
-                v-model="code"
-              />
+              <input type="tel" maxlength="8" placeholder="驗證碼" v-model="code" />
             </section>
             <section class="login_hint">
               溫馨提示:未註冊雨滴購物網帳號的手機號，登入時將自動註冊，且代表已同意
@@ -52,28 +30,18 @@
           </div>
           <div :class="{ on: !loginWay }">
             <section class="login_message">
-              <input
-                type="text"
-                placeholder="手機/郵箱/用戶名"
-                maxlength="11"
-                v-model="name"
-              />
+              <input type="email" placeholder="帳號(請輸入申請時的電子郵件信箱地址)" v-model="name" />
             </section>
             <section class="login_verification">
               <input
                 type="text"
                 placeholder="密碼"
+                minlength="6"
                 maxlength="8"
                 v-if="showPwd"
                 v-model="pwd"
               />
-              <input
-                type="password"
-                placeholder="密碼"
-                maxlength="8"
-                v-else
-                v-model="pwd"
-              />
+              <input type="password" placeholder="密碼" maxlength="8" v-else v-model="pwd" />
               <div
                 class="switch_button"
                 :class="showPwd ? 'on' : 'off'"
@@ -84,12 +52,7 @@
               </div>
             </section>
             <section class="login_message">
-              <input
-                type="text"
-                maxlength="4"
-                placeholder="驗證碼"
-                v-model="captcha"
-              />
+              <input type="text" maxlength="4" placeholder="驗證碼" v-model="captcha" />
               <img
                 class="get_verification"
                 src="http://207.148.96.113:4000/captcha"
@@ -99,21 +62,22 @@
               />
             </section>
           </div>
-          <button class="login_submit">登入</button>
+          <button class="login_submit" @click="loginCheck">登入</button>
+          <router-link to="/signup">
+            <button class="login_submit" @click="loginSign">註冊</button>
+          </router-link>
         </form>
 
         <a href="javascript:;" class="about_us">關於我們</a>
       </div>
-      <a href="javascript:" class="go_back" @click="$router.back()">
-        <i class="iconfont  icon-chevron-left"></i>
-      </a>
+      <router-link to="/profile">
+        <a href="javascript:" class="go_back">
+          <i class="iconfont icon-chevron-left"></i>
+        </a>
+      </router-link>
     </div>
 
-    <AlertTip
-      :alertText="alertText"
-      @closeTip="closeTip"
-      v-if="alertShow"
-    ></AlertTip>
+    <AlertTip :alertText="alertText" @closeTip="closeTip" v-if="alertShow"></AlertTip>
   </div>
 </template>
 
@@ -137,13 +101,16 @@ export default {
   },
   computed: {
     rightPhone () {
-      return /^1\d{10}$/.test(this.phone)
+      return /^09\d{8}$/.test(this.phone)
     }
   },
   components: {
     AlertTip
   },
   methods: {
+    loginSign () {
+      console.log('111')
+    },
     // 異步獲取短信驗證碼
     async getCode () {
       if (!this.computeTime) {
@@ -254,6 +221,19 @@ export default {
 * {
   margin: 0;
   padding: 0;
+}
+.backGround {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0px auto;
+  z-index: -999;
+  background-image: url("../../common/img/signinBG.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .loginContainer {
   padding-top: 60px;
@@ -370,14 +350,17 @@ export default {
 }
 .login_submit {
   position: relative;
+  margin: auto;
   display: block;
-  width: 100%;
+  width: 50%;
   margin-top: 20px;
   margin-bottom: 10px;
   line-height: 50px;
   height: 50px;
-  color: white;
-  background-color: rgb(114, 20, 143);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  background-color: purple;
+  border-radius: 20px;
 }
 .about_us {
   text-decoration: none;
@@ -388,5 +371,9 @@ export default {
   top: 20px;
   left: 20px;
   text-decoration: none;
+}
+.go_back > i {
+  font-size: 20px;
+  color: purple;
 }
 </style>

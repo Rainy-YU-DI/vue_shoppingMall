@@ -19,30 +19,34 @@
 <script>
 import { mapState } from 'vuex'
 
-/* import { MessageBox } from 'mint-ui' */
+import { MessageBox } from 'mint-ui'
 export default {
   data () {
-    return {}
+    return {
+      userInfo1: this.$store.state.userInfo
+    }
   },
   props: {
     food: Object
   },
   methods: {
     updateFoodCount (isAdd, event) {
-      /*  if (event) {
+      if (event) {
         event.stopImmediatePropagation()
-      } else if (this.userInfo) {
+      } else if (this.userInfo1.name) {
+        console.log(this.userInfo1.name, '000')
         this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
       } else {
         MessageBox.alert('需先登入會員', '提示')
-      } */
-      if (event) {
+      }
+    },
+    /*  if (event) {
         event.stopImmediatePropagation()
       } else {
         this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
-        /*    this.indexCount(this.food) */
-      }
-    },
+        this.indexCount(this.food)
+      } */
+
     indexCount (food) {
       var a = this.$store.state.cartFoods.filter(function (e) {
         return e.name === food.name
