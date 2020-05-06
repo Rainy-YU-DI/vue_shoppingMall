@@ -65,3 +65,16 @@ export const reqUsernameOrderText = username =>
   ajax(BASE01 + "/api/order/username", {
     username
   });
+
+//POST:異步註冊電子郵件
+export const reqSignin = (email, password, username) =>
+  ajax(
+    BASE01 + "/api/auth/signup",
+    {
+      email: email,
+      password: password,
+      role: ["ROLE_USER"],
+      username: username
+    },
+    "POST"
+  );

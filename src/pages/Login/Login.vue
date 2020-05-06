@@ -30,7 +30,7 @@
           </div>
           <div :class="{ on: !loginWay }">
             <section class="login_message">
-              <input type="email" placeholder="帳號(請輸入申請時的電子郵件信箱地址)" v-model="name" />
+              <input placeholder="帳號(請輸入申請時的電子郵件信箱地址)" v-model="name" />
             </section>
             <section class="login_verification">
               <input
@@ -163,7 +163,7 @@ export default {
         // 密碼登入
         const { pwd, name, captcha } = this
         if (!this.name) {
-          this.alertText = '請輸入用戶名'
+          this.alertText = '請輸入電子郵件地址'
           this.alertShow = true
           return
         } else if (!this.pwd) {
