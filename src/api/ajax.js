@@ -28,18 +28,26 @@ export default function ajax(url, data = {}, type = "GET") {
         url = url + "?" + dataStr;
       }
       promise = axios.get(url);
+      /*使用fetch法 */
+      /*  promise = fetch(url); */
     } else {
-      promise = axios.post(url, data, {
+      promise = axios.post(url, data);
+      /*使用fetch法 */
+      /*   promise = fetch(url, {
+        method: "POST",
         headers: {
-          Authorization:
-            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWEiLCJpYXQiOjE1ODU2Njg4ODcsImV4cCI6MTU4NTc1NTI4N30._f8cgwl41eQyEjfk2YXF9jOUbQzklbTDzLpxvU5I3iuxoUfKV0IoEdLAfXBYD3Y_g-FFaL1OjutzJxeUddMfWA"
-        }
-      });
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }); */
+      /*  console.log(JSON.stringify(data)); */
     }
 
     promise
       .then(function(response) {
         //成功調用resolve()
+        /*  console.log(data); */
         resolve(response.data);
         //失敗調用reject()
       })

@@ -124,6 +124,10 @@ export default {
           if (!this.scroll) {
             this.scroll = new BScroll('.listFood', { click: true })
           } else {
+            if (this.totalCount === 0) {
+              this.isShow = false
+            }
+
             this.scroll.refresh() // 讓滾動條自動刷新:自動重新統計內容高度
           }
         })
@@ -195,6 +199,7 @@ export default {
   vertical-align: middle;
 }
 .cartRight .pay {
+  font-family: "Microsoft JhengHei ";
   color: rgb(255, 255, 255);
   font-size: 10px;
   line-height: 48px;

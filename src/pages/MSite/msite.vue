@@ -8,12 +8,8 @@
         </span>
       </router-link>
 
-      <router-link
-        class="slotRight"
-        slot="right"
-        :to="userInfo._id ? '/profile' : '/login'"
-      >
-        <span v-if="!userInfo._id">登入|註冊</span>
+      <router-link class="slotRight" slot="right" :to="userInfo.id ? '/profile' : '/login'">
+        <span v-if="!userInfo.id">登入|註冊</span>
         <span v-else>
           <i class="iconfont icon-huiyuan"></i>
         </span>
@@ -24,16 +20,8 @@
         <!-- 首頁導航 -->
         <div class="swiper-container" v-if="categorys.length">
           <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="(categorys, index) in categorysArr"
-              :key="index"
-            >
-              <a
-                class="swiperOne"
-                v-for="(category, index) in categorys"
-                :key="index"
-              >
+            <div class="swiper-slide" v-for="(categorys, index) in categorysArr" :key="index">
+              <a class="swiperOne" v-for="(category, index) in categorys" :key="index">
                 <div class="imgBlock">
                   <!--  <img src="./imgs/nav/1.jpg" /> -->
                   <img :src="categoryBaseUrl + category.image_url" />

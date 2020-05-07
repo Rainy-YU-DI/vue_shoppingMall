@@ -171,7 +171,7 @@
       </div>
       <div class="group">
         <div class="creditText">購買者資訊:</div>
-        <div class="confirmContext">{{ userInfo.name ? `會員:${userInfo.name} 君` : "非會員" }}</div>
+        <div class="confirmContext">{{ userInfo.username ? `會員:${userInfo.username} 君` : "非會員" }}</div>
       </div>
       <div class="group">
         <div class="creditText">付款方式:</div>
@@ -231,8 +231,8 @@ export default {
       ],
       // POST訂單資料
       /*  name: this.$store.state.userInfo.name, */
-      userId: this.$store.state.userInfo._id
-        ? this.$store.state.userInfo._id
+      userId: this.$store.state.userInfo.id
+        ? this.$store.state.userInfo.id
         : '尚未登入用戶',
       productList: {}
     }

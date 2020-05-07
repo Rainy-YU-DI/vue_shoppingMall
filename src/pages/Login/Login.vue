@@ -30,7 +30,7 @@
           </div>
           <div :class="{ on: !loginWay }">
             <section class="login_message">
-              <input placeholder="帳號(請輸入申請時的電子郵件信箱地址)" v-model="name" />
+              <input placeholder="帳號(請輸入用戶名稱)" v-model="username" />
             </section>
             <section class="login_verification">
               <input
@@ -83,6 +83,7 @@
 
 <script>
 import AlertTip from '../../components/AlertTip/AlertTip.vue'
+import { Toast } from 'mint-ui'
 import { reqPwdLogin, reqSendCode, reqSmsLogin } from '../../api/index'
 export default {
   data () {
@@ -92,7 +93,7 @@ export default {
       showPwd: false,
       phone: '',
       code: '', // 短信驗證碼
-      name: '', // 用戶名,
+      username: '', // 帳號:用戶名稱,
       captcha: '', // 圖形驗證碼
       computeTime: 0,
       alertText: '',
@@ -161,9 +162,9 @@ export default {
         result = await reqSmsLogin(phone, code)
       } else {
         // 密碼登入
-        const { pwd, name, captcha } = this
-        if (!this.name) {
-          this.alertText = '請輸入電子郵件地址'
+        const { pwd, username } = this
+        if (!this.username) {
+          this.alertText = '請輸入用戶名稱'
           this.alertShow = true
           return
         } else if (!this.pwd) {
@@ -177,7 +178,7 @@ export default {
         }
 
         // 發ajax請求:密碼登入
-        result = await reqPwdLogin({ name, pwd, captcha })
+        result = await reqPwdLogin({ username, pwd })
       }
 
       // 根據結果數據統一處裡
@@ -188,15 +189,17 @@ export default {
         this.intervalId = undefined
       }
 
-      if (result.code === 0) {
+      if (result.code === '00') {
+        Toast('登入成功')
         const user = result.data
+        console.log(user)
         // 將user保存到state
         this.$store.dispatch('recordUser', user)
         // 跳轉到個人中心頁面
         this.$router.replace('/profile')
-      } else {
-        const msg = result.msg
-        this.alertText = msg
+      } else if (result.code === '01') {
+        console.log('登入失敗')
+        this.alertText = '登入失敗'
         this.alertShow = true
         this.getCaptcha()
       }

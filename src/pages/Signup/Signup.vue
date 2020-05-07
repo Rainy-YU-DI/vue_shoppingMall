@@ -13,16 +13,30 @@
         <div class="signInput" @submit.prevent="signin()">
           <form>
             <div class="inputGroup">
-              <label for="email">帳號</label>
-              <input id="email" placeholder="請輸入電子郵件信箱地址" v-model="email" />
+              <label for="username">用戶名</label>
+              <input
+                id="username"
+                type="text"
+                placeholder="可書寫中英文(3-20字元)"
+                v-model="username"
+              />
             </div>
             <div class="inputGroup">
               <label for="password">密碼</label>
-              <input type="text" id="password" placeholder="需介於6-8碼" v-model="password" />
+              <input
+                type="text"
+                id="password"
+                placeholder="需介於6-8碼"
+                v-model="password"
+              />
             </div>
             <div class="inputGroup">
-              <label for="username">暱稱</label>
-              <input id="username" type="text" placeholder="需同時有字符(英文)與數字" v-model="username" />
+              <label for="email">信箱</label>
+              <input
+                id="email"
+                placeholder="請輸入電子郵件信箱地址"
+                v-model="email"
+              />
             </div>
             <div class="text">
               點選「
@@ -36,20 +50,25 @@
           <router-link to="/login">登入</router-link>
         </div>
       </div>
-      <AlertTip :alertText="alertText" @closeTip="closeTip" v-if="alertShow"></AlertTip>
+      <AlertTip
+        :alertText="alertText"
+        @closeTip="closeTip"
+        v-if="alertShow"
+      ></AlertTip>
     </div>
   </div>
 </template>
 
 <script>
 import AlertTip from '../../components/AlertTip/AlertTip.vue'
+import { Toast } from 'mint-ui'
 import { reqSignin } from '../../api/index'
 export default {
   data () {
     return {
-      email: '', // 帳號
+      email: '',
       password: '',
-      username: '', // 暱稱
+      username: '', // 用戶名稱
       alertText: '',
       alertShow: false,
       checkOver: false
@@ -59,26 +78,26 @@ export default {
     async signin () {
       let result
       console.log(this.email, this.password, this.username)
-      // 檢查帳號(信箱)
+      // 檢查信箱
       var patternEmail = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
       var checkEmail = patternEmail.test(this.email)
       // 檢查密碼
       var patternPwd = /^[A-Za-z\d]{6,8}$/
       var checkPwd = patternPwd.test(this.password)
       // 檢查暱稱
-      var patternUsername = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{3,5}$/
+      /* var patternUsername = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{3,5}$/
       var checkUsername = patternUsername.test(this.username)
-
-      if (!checkEmail) {
-        this.alertText = '電子郵件信箱格式錯誤'
+ */
+      if (!this.username) {
+        this.alertText = '用戶名稱需介於3-20字元'
         this.alertShow = true
         return
       } else if (!checkPwd) {
         this.alertText = '密碼需介於6-8碼'
         this.alertShow = true
         return
-      } else if (!checkUsername) {
-        this.alertText = '暱稱需同時有字符與數字'
+      } else if (!checkEmail) {
+        this.alertText = '電子郵件信箱格式錯誤'
         this.alertShow = true
         return
       } else {
@@ -88,26 +107,68 @@ export default {
       if (this.checkOver) {
         // 異步POST註冊帳號
         const { email, password, username } = this
-        result = await reqSignin(email, password, username)
-        console.log(result)
+        // result = await reqSignin(email, password, username)
 
-        // 處理資訊
-        if (result.message === 'User registered successfully!') {
-          this.alertShow = true
-          this.alertText = '已註冊成功!'
+        result = reqSignin(email, password, username)
+        console.log(result) // 這邊回傳為promise
+        /* 後端要把這種是可能用戶名重覆或是信箱重覆這種的讓他是Status Code=200 OK，這樣我才抓的到資料回傳內容，如果這種設Status Code=400 Bad Request,前端抓資料只抓的到  "Error: Request failed with status code 400"
+        所以只有真的錯誤的設400 信箱用戶名格式對只是已被申請過的應該設200'
+        然後前端就可以抓到到response.code === '00'或01來判斷要提示什麼
+        這種情況是200才對,400是請求有問題 */
 
+        result
+          .then(response => {
+            console.log('註冊成功', response)
+            if (response.code === '00') {
+              Toast('註冊成功')
+              // 跳轉到個人中心頁面
+              this.$router.replace('/login')
+            } else if (
+              response.code === '01' &&
+              response.msg === 'Error: Username is already taken!'
+            ) {
+              this.alertText = '此用戶名稱已經被註冊'
+              this.alertShow = true
+            } else if (
+              response.code === '01' &&
+              response.msg === 'Error: Email is already in use!'
+            ) {
+              this.alertText = '此信箱已經被註冊'
+              this.alertShow = true
+            }
+          })
+          .catch(error => {
+            console.log('失敗', error)
+
+            this.alertText = '註冊失敗'
+            this.alertShow = true
+          })
+        /*   // 處理資訊
+        result
+          .then(res => {
+            Toast('註冊成功')
+            console.log('成功', res)
+            // 跳轉到個人中心頁面
+            this.$router.replace('/login')
+          })
+          .catch(error => {
+            console.log('失敗', error)
+            this.alertText = '註冊失敗'
+            this.alertShow = true
+          }) */
+        /*   if (result.code === '00') {
+          Toast('註冊成功')
+          console.log(result)
           // 跳轉到個人中心頁面
+          this.$router.replace('/login')
         } else {
-          this.alertText = '註冊失敗,請重新操作!'
+          this.alertText = '此用戶名稱已被使用'
           this.alertShow = true
-        }
+        } */
       }
     },
     closeTip () {
       this.alertShow = false
-      if (this.alertText === '已註冊成功!') {
-        this.$router.replace('/login')
-      }
     }
   },
   components: {

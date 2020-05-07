@@ -17,11 +17,18 @@ export const reqShops = (longitude, latitude) =>
 export const reqSearchShops = (geohash, keyword) =>
   ajax(BASE + "/search_shops", { geohash, keyword });
 //[5、获取一次性验证码]:不用,直接用src="http://localhost:4000/captcha"
-//[6、用户名密码登陆]
+//[6、用户名密碼登陆]
 /* export const reqPwdLogin = ({ name, pwd, captcha }) =>
   ajax(BASE + "/login_pwd", { name, pwd, captcha }, "POST"); */
-export const reqPwdLogin = ({ name, pwd, captcha }) =>
-  ajax(BASE + "/login_pwd", { name, pwd, captcha }, "POST");
+export const reqPwdLogin = ({ username, pwd }) =>
+  ajax(
+    BASE01 + "/api/auth/signin",
+    {
+      password: pwd,
+      username: username
+    },
+    "POST"
+  );
 //[7、发送短信验证码]
 export const reqSendCode = phone => ajax(BASE + "/sendcode", phone, "POST");
 //[8、手机号验证码登陆]

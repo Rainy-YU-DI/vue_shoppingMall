@@ -11,7 +11,7 @@ export default {
   data () {
     return {
       showOrder: true,
-      name: this.$store.state.userInfo.name
+      name: this.$store.state.userInfo.username
     }
   },
 

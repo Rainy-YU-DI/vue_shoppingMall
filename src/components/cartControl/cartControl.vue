@@ -2,6 +2,7 @@
   <div class="GreeButtom">
     <transition name="move">
       <span
+        v-if="remove_circle (food)"
         class="material-icons"
         v-on:click.stop.prevent="updateFoodCount(false)"
       >remove_circle_outline</span>
@@ -33,8 +34,8 @@ export default {
     updateFoodCount (isAdd, event) {
       if (event) {
         event.stopImmediatePropagation()
-      } else if (this.userInfo1.name) {
-        console.log(this.userInfo1.name, '000')
+      } else if (this.userInfo1.username) {
+        console.log(this.userInfo1.username, '000')
         this.$store.dispatch('updateFoodCount', { isAdd, food: this.food })
       } else {
         MessageBox.alert('需先登入會員', '提示')
@@ -57,6 +58,18 @@ export default {
       console.log(a[0].count)
       console.log(this.food.count, this.food)
       return a[0].count
+    },
+
+    // remove_circle出現/消失調整
+    remove_circle (food) {
+      var a = this.$store.state.cartFoods.filter(function (e) {
+        return e.name === food.name
+      })
+      if (!a.length) {
+        return false
+      }
+
+      return true
     }
   },
   computed: {

@@ -16,7 +16,7 @@
         <div class="orderItemHead">
           <span>訂單編號:{{userOrder.orderNo}}</span>
           <div class="user">
-            <span>會員姓名:{{userInfo.name}}</span>
+            <span>會員姓名:{{userInfo.username}}</span>
             <span>會員id:{{userOrder.username}}</span>
           </div>
         </div>
@@ -56,8 +56,8 @@ export default {
     ...mapActions(['deleteThisItem', 'getUserInfoAlredeyOrder'])
   },
   mounted: function () {
-    if (this.$store.state.userInfo._id) {
-      let userId = this.$store.state.userInfo._id
+    if (this.$store.state.userInfo.id) {
+      let userId = this.$store.state.userInfo.id
       this.getUserInfoAlredeyOrder(userId)
     }
   }
