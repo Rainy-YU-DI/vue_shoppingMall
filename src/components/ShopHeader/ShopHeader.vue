@@ -226,8 +226,12 @@ export default {
   border-radius: 2px;
 }
 .headFooter_left {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   vertical-align: middle;
   line-height: 25px;
+  width: 150px;
 }
 
 .headFooter_right {

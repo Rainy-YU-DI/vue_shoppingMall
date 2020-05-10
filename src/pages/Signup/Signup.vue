@@ -14,29 +14,15 @@
           <form>
             <div class="inputGroup">
               <label for="username">用戶名</label>
-              <input
-                id="username"
-                type="text"
-                placeholder="可書寫中英文(3-20字元)"
-                v-model="username"
-              />
+              <input id="username" type="text" placeholder="可書寫中英文(3-20字元)" v-model="username" />
             </div>
             <div class="inputGroup">
               <label for="password">密碼</label>
-              <input
-                type="text"
-                id="password"
-                placeholder="需介於6-8碼"
-                v-model="password"
-              />
+              <input type="text" id="password" placeholder="需介於6-8碼" v-model="password" />
             </div>
             <div class="inputGroup">
               <label for="email">信箱</label>
-              <input
-                id="email"
-                placeholder="請輸入電子郵件信箱地址"
-                v-model="email"
-              />
+              <input id="email" placeholder="請輸入電子郵件信箱地址" v-model="email" />
             </div>
             <div class="text">
               點選「
@@ -50,11 +36,7 @@
           <router-link to="/login">登入</router-link>
         </div>
       </div>
-      <AlertTip
-        :alertText="alertText"
-        @closeTip="closeTip"
-        v-if="alertShow"
-      ></AlertTip>
+      <AlertTip :alertText="alertText" @closeTip="closeTip" v-if="alertShow"></AlertTip>
     </div>
   </div>
 </template>
@@ -85,10 +67,10 @@ export default {
       var patternPwd = /^[A-Za-z\d]{6,8}$/
       var checkPwd = patternPwd.test(this.password)
       // 檢查暱稱
-      /* var patternUsername = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{3,5}$/
+      var patternUsername = /^.{3,20}$/
       var checkUsername = patternUsername.test(this.username)
- */
-      if (!this.username) {
+
+      if (!this.username || !checkUsername) {
         this.alertText = '用戶名稱需介於3-20字元'
         this.alertShow = true
         return
@@ -121,6 +103,7 @@ export default {
             console.log('註冊成功', response)
             if (response.code === '00') {
               Toast('註冊成功')
+
               // 跳轉到個人中心頁面
               this.$router.replace('/login')
             } else if (
@@ -134,6 +117,12 @@ export default {
               response.msg === 'Error: Email is already in use!'
             ) {
               this.alertText = '此信箱已經被註冊'
+              this.alertShow = true
+            } else if (
+              response.code === '01' &&
+              response.msg === 'username:size must be between 3 and 20'
+            ) {
+              this.alertText = '用戶名需介於3-20字元'
               this.alertShow = true
             }
           })

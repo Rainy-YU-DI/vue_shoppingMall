@@ -1,6 +1,7 @@
 // JS入口
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import "jquery";
 import { Button } from "mint-ui";
 import Vue from "vue";
 //圖片懶加載插件

@@ -60,7 +60,6 @@ export const reqAlredeyOrder = ({ userId, productList }) =>
     },
     "POST"
   );
-
 //GET:根據orderNo查詢訂單(restful)
 export const reqOrderNumText = orderNo =>
   ajax(BASE01 + "/api/order/orderNo/" + orderNo, {

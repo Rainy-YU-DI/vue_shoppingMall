@@ -4,13 +4,13 @@
       <div class="loginHeader">
         <h2 class="login_logo">雨滴購物網</h2>
         <div class="login_header_title">
-          <a href="javascript:;" :class="{ on: loginWay }" @click="loginWay = true">短信登入</a>
+          <!--  <a href="javascript:;" :class="{ on: loginWay }" @click="loginWay = true">短信登入</a> -->
           <a href="javascript:;" :class="{ on: !loginWay }" @click="loginWay = false">密碼登入</a>
         </div>
       </div>
       <div class="login_content">
         <form>
-          <div :class="{ on: loginWay }">
+          <!--  <div :class="{ on: loginWay }">
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder="手機號" v-model="phone" />
               <button
@@ -27,7 +27,7 @@
               溫馨提示:未註冊雨滴購物網帳號的手機號，登入時將自動註冊，且代表已同意
               <a href="javascript:;">《用戶服務協議》</a>
             </section>
-          </div>
+          </div>-->
           <div :class="{ on: !loginWay }">
             <section class="login_message">
               <input placeholder="帳號(請輸入用戶名稱)" v-model="username" />
@@ -88,7 +88,7 @@ import { reqPwdLogin, reqSendCode, reqSmsLogin } from '../../api/index'
 export default {
   data () {
     return {
-      loginWay: true, // true代表短信登入，false代表密碼
+      loginWay: false, // true代表短信登入，false代表密碼
       pwd: '',
       showPwd: false,
       phone: '',
@@ -193,6 +193,7 @@ export default {
         Toast('登入成功')
         const user = result.data
         console.log(user)
+        localStorage.setItem('x-token', result.data.accessToken)
         // 將user保存到state
         this.$store.dispatch('recordUser', user)
         // 跳轉到個人中心頁面

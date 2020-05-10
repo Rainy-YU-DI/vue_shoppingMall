@@ -27,11 +27,19 @@ export default function ajax(url, data = {}, type = "GET") {
         dataStr = dataStr.substring(0, dataStr.lastIndexOf("&"));
         url = url + "?" + dataStr;
       }
-      promise = axios.get(url);
+      promise = axios.get(url, {
+        headers: {
+          Authorization: localStorage.getItem("x-token")
+        }
+      });
       /*使用fetch法 */
       /*  promise = fetch(url); */
     } else {
-      promise = axios.post(url, data);
+      promise = axios.post(url, data, {
+        headers: {
+          Authorization: localStorage.getItem("x-token")
+        }
+      });
       /*使用fetch法 */
       /*   promise = fetch(url, {
         method: "POST",

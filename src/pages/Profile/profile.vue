@@ -4,7 +4,10 @@
     <HeaderTop title="會員資訊"></HeaderTop>
     <!--會員登入顯示狀態-->
     <section class="profile_number">
-      <router-link :to="!userInfo.username ? '/login' : ''" class="profile_link">
+      <router-link
+        :to="!userInfo.username ? '/login' : ''"
+        class="profile_link"
+      >
         <div class="profile_image">
           <i class="iconfont icon-gerenzhongxin"></i>
         </div>
@@ -15,7 +18,9 @@
               <span>
                 <i class="iconfont icon-huiyuan"></i>
               </span>
-              <span>{{userInfo.username?"歡迎光臨雨滴購物網!":"狀態:尚未登入會員"}}</span>
+              <span>{{
+                userInfo.username ? "歡迎光臨雨滴購物網!" : "狀態:尚未登入會員"
+              }}</span>
               <!-- <span class="phone-number">
                 {{
                 userInfo.phone || "暫無綁定手機號碼"
@@ -35,16 +40,19 @@
       <!--若有登入顯示資料-->
       <section class="accountInfo" v-if="userInfo.username">
         <!-- 我的訂單 -->
-        <router-link class="profile_my_order01" :to="!userInfo.username? '' : '/UserOrderText'">
+        <router-link
+          class="profile_my_order01"
+          :to="!userInfo.username ? '' : '/UserOrderText'"
+        >
           <span>
             <i class="iconfont icon-zhanwaicepingguanggaoshuju"></i>
           </span>
           <div class="my_order_div">
             <span>我的歷史訂單</span>
-            <span class="my_order_icon">
-              <i class="iconfont icon-chevron-right"></i>
-            </span>
           </div>
+          <span class="my_order_icon">
+            <i class="iconfont icon-chevron-right"></i>
+          </span>
         </router-link>
         <!-- 我的會員資料 -->
         <div class="accountInfoList">
@@ -56,16 +64,18 @@
             <span class="accountInfoList_title">身份</span>
           </div>
           <div class="accountInfoList_right">
-            <span class="accountInfoList_content">{{userInfo.username}}</span>
-            <span class="accountInfoList_content">{{userInfo.id}}</span>
-            <span class="accountInfoList_content">{{userInfo.email}}</span>
+            <span class="accountInfoList_content">{{ userInfo.username }}</span>
+            <span class="accountInfoList_content">{{ userInfo.id }}</span>
+            <span class="accountInfoList_content">{{ userInfo.email }}</span>
             <span class="accountInfoList_content">一般用戶</span>
           </div>
         </div>
       </section>
       <!--退出登入按鍵-->
       <section v-if="userInfo.username">
-        <mt-button type="danger" style="width:100%" @click="logout">退出登入</mt-button>
+        <mt-button type="danger" style="width:100%" @click="logout"
+          >退出登入</mt-button
+        >
       </section>
     </section>
   </div>
@@ -88,6 +98,8 @@ export default {
           // 請求退出
           this.$store.dispatch('logout')
           this.$store.dispatch('clearCart')
+          // 清除:直接清掉 local storage 的紀錄,localStorage.removeItem('x-token') ，當 token 消失後，使用者就只能再次登入得到新的 token 。
+          localStorage.removeItem('x-token')
           Toast('已登出!')
         },
         action => {
@@ -108,7 +120,7 @@ export default {
 }
 .profile_link {
   position: relative;
-  display: block;
+  display: flex;
   height: 100%;
   *zoom: 1;
   padding: 10px 10px;
@@ -139,12 +151,13 @@ export default {
 }
 .user-info {
   position: relative;
-  display: inline-block;
+  display: flex;
   margin-left: 100px;
   vertical-align: middle;
   height: 100%;
-  width: 200px;
+
   margin-right: 0px;
+  flex: 2;
   float: left;
 }
 .userGroup {
@@ -202,17 +215,18 @@ export default {
 .profile_my_order01 {
   position: relative;
   display: block;
-  width: 100%;
+
   height: 53px;
   background-color: gold;
   border-bottom: 1px solid grey;
-  padding-left: 20px;
+  padding: 0px 20px;
   text-align: left;
   height: 58px;
   display: flex;
   align-items: center;
   text-decoration: none;
   color: rgb(77, 56, 5);
+  box-sizing: border-box;
 }
 .profile_my_order > a > span:nth-child(1) {
   display: inline-block;
@@ -221,11 +235,15 @@ export default {
 }
 .my_order_div {
   position: relative;
-  width: 92%;
-  margin-left: 5px;
+  padding-left: 5px;
+}
+.my_order_div > span {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+}
+.my_order_icon {
+  position: absolute;
+
+  right: 0px;
 }
 /* 會員資料明細 */
 .accountList {

@@ -11,7 +11,11 @@
             @click="clickMenuLeft(index)"
           >
             <div class="itemSpan">
-              <img :src="good.icon" style="width:12px;height:12px" v-if="good.icon" />
+              <img
+                :src="good.icon"
+                style="width:12px;height:12px"
+                v-if="good.icon"
+              />
               <p>{{ good.name }}</p>
             </div>
           </li>
@@ -102,11 +106,17 @@ export default {
       this.foodScroll = new BScroll(".menu_right", {
         probeType: 2, //慣性滑動不會觸發
         scrollY: true,
-        click: true
+        click: true,
+        //滑鼠滾輪有效果
+        mouseWheel: {
+          speed: 20,
+          invert: false,
+          easeTime: 300
+        }
       });
 
       //給右側列表綁定scroll監聽
-      this.foodScroll.on("scroll", ({ x, y }) => {
+      this.foodScroll.on("scroll,", ({ x, y }) => {
         console.log(x, y);
         this.scrollY = Math.abs(y);
       });

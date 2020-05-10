@@ -99,7 +99,14 @@ export default {
   },
   methods: {
     _initBscroll () {
-      var scroll = new BScroll('.shopInfo')
+      var scroll = new BScroll('.shopInfo', {
+        // 滑鼠滾輪有效果
+        mouseWheel: {
+          speed: 20,
+          invert: false,
+          easeTime: 300
+        }
+      })
       console.log(scroll)
 
       // 計算shopInfoRealImgsBScroll Ul的寬

@@ -122,7 +122,13 @@ export default {
       this.$nextTick(() => {
         if (!this.scroll) {
           this.scroll = new BScroll(this.$refs.ratings, {
-            click: true
+            // 滑鼠滾輪有效果
+            click: true,
+            mouseWheel: {
+              speed: 20,
+              invert: false,
+              easeTime: 300
+            }
           })
         }
       })
